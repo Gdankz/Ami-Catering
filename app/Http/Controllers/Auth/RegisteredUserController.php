@@ -1,50 +1,36 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Pelanggan; // Pastikan Anda mengimpor model ini
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
-    public function create(): View
+    public function store(Request $request)
     {
-        return view('auth.register');
-    }
-
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function store(Request $request): RedirectResponse
-    {
+        // Validasi input
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'nama' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'string', 'email', 'max:100', 'unique:Pelanggan,Email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'alamat' => ['required', 'string', 'max:255'],
+            'noHP' => ['required', 'string', 'max:20'],
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+        // Simpan data ke tabel Pelanggan
+        $pelanggan = Pelanggan::create([ // Pastikan Anda memanggil create() di sini
+            'Nama' => $request->nama,
+            'Email' => $request->email,
+            'Password' => Hash::make($request->password),
+            'Alamat' => $request->alamat,
+            'noHP' => $request->noHP,
         ]);
 
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+        // Redirect atau respons lainnya
+        return redirect()->route('login')->with('success', 'Registrasi berhasil, silakan login.');
     }
 }
+
