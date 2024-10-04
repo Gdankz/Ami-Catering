@@ -38,7 +38,7 @@
 
                 <div class="mb-4">
                     <label for="noHP" class="block text-sm font-medium text-gray-700">No HP</label>
-                    <input type="number" name="noHP" id="noHP"
+                    <input type="text" name="noHP" id="noHP" required
                            class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500">
                 </div>
 
@@ -68,6 +68,10 @@
 
                 <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Daftar</button>
             </form>
+
+            <div class="mt-6 text-center">
+                <p class="text-sm">Sudah punya akun? <a href="{{ route('login.form') }}" class="text-blue-500 hover:underline">Login di sini</a></p>
+            </div>
         </div>
     </div>
 

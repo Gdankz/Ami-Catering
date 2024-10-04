@@ -1,15 +1,15 @@
 <?php
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-
-class Pelanggan extends Authenticatable
+use Illuminate\Database\Eloquent\Model;
+class Pelanggan extends Model implements AuthenticatableContract
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Authenticatable;
 
-    protected $table = 'Pelanggan'; // Nama tabel yang sesuai
+    protected $table = 'Pelanggan'; // Nama tabel
 
     protected $fillable = [
         'Nama',
@@ -20,6 +20,8 @@ class Pelanggan extends Authenticatable
     ];
 
     protected $hidden = [
-        'Password', // Kolom yang harus disembunyikan
+        'Password', // Kolom yang disembunyikan
     ];
+
+    public $timestamps = false;
 }
