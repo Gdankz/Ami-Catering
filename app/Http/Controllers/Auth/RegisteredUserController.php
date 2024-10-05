@@ -20,7 +20,6 @@ class RegisteredUserController extends Controller
             'noHP' => ['required', 'string', 'max:20'],
         ]);
 
-        // Gunakan model Pelanggan untuk membuat entri baru
         Pelanggan::create([
             'Nama' => $request->input('nama'),
             'Email' => $request->input('email'),
