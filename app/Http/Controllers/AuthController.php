@@ -1,75 +1,97 @@
 <?php
-
-
 namespace App\Http\Controllers;
 
-use App\Models\Pelanggan;
 use Illuminate\Http\Request;
+use App\Models\Pelanggan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // Menampilkan halaman form registrasi
-    public function showRegisterForm()
-    {
-        return view('auth.register');
-    }
-
-    // Proses registrasi
-    public function register(Request $request)
-    {
-        $request->validate([
-            'Nama' => 'required|string|max:255',
-            'Alamat' => 'required|string|max:255',
-            'noHP' => 'required|string|max:15',
-            'Email' => 'required|string|email|max:255',
-            'Password' => 'required|string|min:8|confirmed',
-        ]);
-
-        Pelanggan::create([
-            'Nama' => $request->Nama,
-            'Alamat' => $request->Alamat,
-            'noHP' => $request->noHP,
-            'Email' => $request->Email,
-            'Password' => Hash::make($request->Password),
-        ]);
-
-        return redirect('/')->with('success', 'Registrasi berhasil!');
-    }
-
-    // Menampilkan halaman form login
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
-    // Proses login
     public function login(Request $request)
     {
         $request->validate([
-            'Email' => 'required|string|email',
-            'Password' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
-        if (Auth::attempt(['email' => $request->Email, 'password' => $request->Password])) {
-            $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+        $datalogin = [
+            'email' => $request->email,
+            'password' => $request->password
+        ];
+
+//        dd($datalogin);
+
+        if(Auth::attempt($datalogin)){
+            return redirect()->route('dashboard');
         }
 
-        return back()->withErrors([
-            'Email' => 'The provided credentials do not match our records.',
-        ]);
+        // Mencari pelanggan berdasarkan email
+//        $pelanggan = Pelanggan::where('email', $request->email)->first();
+//
+//        // Jika pelanggan ditemukan dan password cocok
+//        if ($pelanggan && Hash::check($request->password, $pelanggan->password)) {
+//            // Login pelanggan
+//            Auth::login($pelanggan);
+//
+//            // Redirect ke dashboard setelah login berhasil
+//            return redirect()->route('dashboard');
+//        }
+//
+//        // Jika login gagal, kirim pesan kesalahan
+//        return back()->withErrors([
+//            'email' => 'The provided credentials do not match our records.',
+//        ]);
     }
 
-    // Proses logout
+
+    public function showRegisterForm()
+    {
+        return view('auth.register');
+    }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'nama' => 'required|string|max:100',
+            'alamat' => 'nullable|string|max:255',
+            'noHP' => 'nullable|string|max:20',
+            'email' => 'required|string|email|max:255|unique:pelanggan',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        // Menggunakan model Pelanggan untuk menyimpan data
+        Pelanggan::create([
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'noHP' => $request->noHP,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('login')->with('success', 'Registration successful. Please login.');
+    }
     public function logout(Request $request)
     {
         Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
 
-        return redirect('/');
+        // Redirect ke halaman login setelah logout
+        return redirect()->route('/');
     }
+
+//    public function dashboard(Request $request){
+//        $pelanggan = Auth::user();
+//
+//        // Debugging: Log data pelanggan yang login
+////        \Log::info('Pelanggan yang login:', [$pelanggan]);
+//
+//        // Kirim data pelanggan ke view dashboard
+//        return view('dashboard', compact('pelanggan'));
+//    }
 }
 

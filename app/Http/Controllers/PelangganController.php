@@ -2,37 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Pelanggan;
-use Illuminate\Support\Facades\Hash;
-
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PelangganController extends Controller
 {
-    public function showRegisterForm()
+    public function index()
     {
-        return view('register');
+        // Ambil data pelanggan yang sedang login
+//        $pelanggan = Auth::user();
+
+//        $iduser = Auth::user();
+//        dd($iduser);
+        $pelanggan = Auth::user();
+//        dd($pelanggan);
+
+        // Debugging: Log data pelanggan yang login
+//        \Log::info('Pelanggan yang login:', [$pelanggan]);
+
+        // Kirim data pelanggan ke view dashboard
+        return view('dashboard', ['pelanggan' => $pelanggan]);
     }
-    public function register(Request $request)
-    {
-        $request->validate([
-            'nama' => 'required|string|max:100',
-            'alamat' => 'nullable|string|max:255',
-            'noHP' => 'nullable|string|max:20',
-            'email' => 'required|email|unique:Pelanggan,Email',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-
-        Pelanggan::create([
-            'Nama' => $request->nama,
-            'Alamat' => $request->alamat,
-            'noHP' => $request->noHP,
-            'Email' => $request->email,
-            'Password' => Hash::make($request->password),
-        ]);
-
-        return redirect()->route('login')->with('success', 'Registrasi berhasil, silakan login.');
-    }
-
 }
+

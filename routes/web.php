@@ -1,40 +1,21 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\PelangganController;
-use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\PelangganController;
 
 Route::get('/', function () {
-    return view('welcome'); // Menampilkan tampilan awal
+    return view('welcome');
 });
 
-Route::get('/register', function () {
-    return view('auth.register'); // Ganti dengan view yang sesuai
-})->name('register.form');
+Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('login', [AuthController::class, 'login']);
+Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('register', [AuthController::class, 'register']);
+//Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
-// Route untuk menyimpan registrasi
-Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
-
-// Route untuk menampilkan halaman login
-Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
-
-// Route untuk memproses login
-Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+Route::get('/dashboard', [PelangganController::class, 'index'])->name('dashboard');
 
 
-Route::get('/login', [LoginController::class, 'create'])->name('login.form');
-Route::post('/login', [LoginController::class, 'store'])->name('login');
-Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
-
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
-
-
-/*require __DIR__.'/auth.php';*/
+// Tambahkan route untuk logout
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
