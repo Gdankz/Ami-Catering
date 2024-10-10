@@ -3,15 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>Register</title>
+    <title>Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-200">
-<div class="flex justify-center items-center h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h2 class="text-2xl font-semibold mb-6 text-center">Register</h2>
+<body class="bg-green-50 flex items-center justify-center min-h-screen">
+
+<div class="bg-white shadow-md rounded-lg flex flex-col md:flex-row max-w-4xl w-full">
+    <!-- Image section -->
+    <div class="bg-green-100 p-4 md:p-8 flex items-center justify-center md:w-1/2 w-full rounded-t-lg md:rounded-l-lg md:rounded-tr-none">
+        <div>
+            <img src="/images/Sign_Up_image.png" alt="Broccoli" class="w-full md:w-64 mx-auto">
+        </div>
+    </div>
+
+    <!-- Form section -->
+    <div class="p-4 md:p-8 flex-1">
+        <h2 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-green-800">Create an account</h2>
+
+        <!-- Jika ada error, tampilkan pesan -->
         @if ($errors->any())
-            <div class="bg-red-200 text-red-600 p-2 rounded mb-4">
+            <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -19,42 +30,28 @@
                 </ul>
             </div>
         @endif
-        <form action="{{ route('register') }}" method="POST">
+
+        <form action="{{ route('register') }}" method="POST" class="space-y-4">
             @csrf
-            <div class="mb-4">
-                <label for="nama" class="block text-sm font-medium text-gray-700">Nama</label>
-                <input type="text" name="nama" id="nama" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" value="{{ old('nama') }}">
-            </div>
 
-            <div class="mb-4">
-                <label for="alamat" class="block text-sm font-medium text-gray-700">Alamat</label>
-                <input type="text" name="alamat" id="alamat" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" value="{{ old('Alamat') }}">
-            </div>
+            <input type="text" name="nama" placeholder="Username"
+                   class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                   value="{{ old('nama') }}">
+            <input type="email" name="email" placeholder="Email"
+                   class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                   value="{{ old('email') }}">
+            <input type="password" name="password" placeholder="Password"
+                   class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+            <input type="password" name="password_confirmation" placeholder="Confirm Password"
+                   class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
 
-            <div class="mb-4">
-                <label for="noHP" class="block text-sm font-medium text-gray-700">No HP</label>
-                <input type="text" name="noHP" id="noHP" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" value="{{ old('noHP') }}">
-            </div>
-
-            <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                <input type="email" name="email" id="email" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" value="{{ old('email') }}">
-            </div>
-
-            <div class="mb-4">
-                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                <input type="password" name="password" id="password" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-            </div>
-
-            <div class="mb-4">
-                <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-                <input type="password" name="password_confirmation" id="password_confirmation" required class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-            </div>
-
-            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Register</button>
+            <button type="submit" class="w-full bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-600">
+                Sign Up
+            </button>
+            <p class="mt-4 text-center">Already have an account? <a href="{{ route('login') }}" class="text-blue-500 hover:underline">Login here</a>.</p>
         </form>
-        <p class="mt-4 text-center">Already have an account? <a href="{{ route('login') }}" class="text-blue-500 hover:underline">Log in</a>.</p>
     </div>
 </div>
+
 </body>
 </html>

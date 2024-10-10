@@ -59,8 +59,8 @@ class AuthController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:100',
-            'alamat' => 'nullable|string|max:255',
-            'noHP' => 'nullable|string|max:20',
+//            'alamat' => 'nullable|string|max:255',
+//            'noHP' => 'nullable|string|max:20',
             'email' => 'required|string|email|max:255|unique:pelanggan',
             'password' => 'required|string|min:8|confirmed',
         ]);
@@ -68,8 +68,8 @@ class AuthController extends Controller
         // Menggunakan model Pelanggan untuk menyimpan data
         Pelanggan::create([
             'nama' => $request->nama,
-            'alamat' => $request->alamat,
-            'noHP' => $request->noHP,
+//            'alamat' => $request->alamat,
+//            'noHP' => $request->noHP,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
