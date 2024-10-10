@@ -81,7 +81,7 @@ class AuthController extends Controller
         Auth::logout();
 
         // Redirect ke halaman login setelah logout
-        return redirect()->route('/');
+        return redirect()->route('login');
     }
 
 //    public function dashboard(Request $request){
