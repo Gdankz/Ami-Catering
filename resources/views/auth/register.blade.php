@@ -34,20 +34,33 @@
         <form action="{{ route('register') }}" method="POST" class="space-y-4">
             @csrf
 
-            <input type="text" name="nama" placeholder="Username"
-                   class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                   value="{{ old('nama') }}">
-            <input type="email" name="email" placeholder="Email"
-                   class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                   value="{{ old('email') }}">
-            <input type="password" name="password" placeholder="Password"
-                   class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
-            <input type="password" name="password_confirmation" placeholder="Confirm Password"
-                   class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+            <div>
+                <input type="text" name="nama" placeholder="Username"
+                       class="w-full border-b border-gray-300 focus:outline-none focus:border-green-500 placeholder-gray-400"
+                       value="{{ old('nama') }}">
+            </div>
 
-            <button type="submit" class="w-full bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-600">
+            <div>
+                <input type="email" name="email" placeholder="Email"
+                       class="w-full border-b border-gray-300 focus:outline-none focus:border-green-500 placeholder-gray-400"
+                       value="{{ old('email') }}">
+            </div>
+
+            <div>
+                <input type="password" name="password" placeholder="Password"
+                       class="w-full border-b border-gray-300 focus:outline-none focus:border-green-500 placeholder-gray-400">
+            </div>
+
+            <div>
+                <input type="password" name="password_confirmation" placeholder="Confirm Password"
+                       class="w-full border-b border-gray-300 focus:outline-none focus:border-green-500 placeholder-gray-400">
+            </div>
+
+
+        <button type="submit" class="w-full bg-green-700 text-white px-4 py-2 rounded-full hover:bg-green-600">
                 Sign Up
             </button>
+
             <p class="mt-4 text-center">Already have an account? <a href="{{ route('login') }}" class="text-blue-500 hover:underline">Login here</a>.</p>
         </form>
     </div>
