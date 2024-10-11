@@ -32,7 +32,9 @@
                 <li><strong>No HP:</strong> {{ auth()->user()->noHP }}</li>
             </ul>
         </div>
-        <div class="mt-6">
+        <div class="mt-6 space-y-2">
+            <a href="{{ route('edit-alamat') }}" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Edit Alamat</a>
+            <a href="{{ route('edit-nohp') }}" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Edit No HP</a>
             <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Lihat Layanan Kami</a>
         </div>
     </div>
