@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,6 +10,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+<<<<<<< HEAD
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -18,6 +18,16 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+=======
+        // Membuat tabel 'pelanggan' jika belum ada
+        Schema::create('pelanggan', function (Blueprint $table) {
+            $table->id('idPelanggan');
+            $table->string('nama', 100);
+            $table->string('alamat', 255)->nullable();
+            $table->string('noHP', 20)->nullable();
+            $table->string('email', 100)->unique();
+            $table->string('password', 255);
+>>>>>>> main
             $table->timestamps();
         });
 
@@ -42,7 +52,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('pelanggan');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
     }

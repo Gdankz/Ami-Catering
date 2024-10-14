@@ -25,7 +25,7 @@ class AuthController extends Controller
             'password' => $request->password
         ];
 
-//        dd($datalogin);
+    //    dd($datalogin);
 
         if(Auth::attempt($datalogin)){
             return redirect()->route('dashboard');
