@@ -10,7 +10,7 @@
 
 <div class="bg-white shadow-md rounded-lg flex flex-col md:flex-row max-w-4xl w-full">
     <!-- Image section -->
-    <div class="bg-green-100 p-4 md:p-8 flex items-center justify-center md:w-1/2 w-full rounded-t-lg md:rounded-l-lg md:rounded-tr-none">
+    <div class="bg-green-100 p-4 md:p-8 flex items-center justify-center md:w-5/12 w-full rounded-t-lg md:rounded-l-lg md:rounded-tr-none">
         <div>
             <img src="/images/Sign_Up_image.png" alt="Broccoli" class="w-full md:w-64 mx-auto">
         </div>
