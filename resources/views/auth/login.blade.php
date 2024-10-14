@@ -33,7 +33,7 @@
         <div class="relative w-full md:w-64 mx-auto">
             <div class="slides">
                 <img src="/images/Sign_Up_image.png" alt="Gambar 1" class="slide">
-                <img src="/images/Sign_Up_image2.png" alt="Gambar 2" class="slide"> 
+                <img src="/images/Sign_Up_image2.png" alt="Gambar 2" class="slide">
                 <img src="/images/Sign_Up_image.png" alt="Gambar 1 Salinan" class="slide"> <!-- Salinan gambar pertama -->
             </div>
         </div>
@@ -42,7 +42,7 @@
     <!-- Form section -->
     <div class="p-4 md:p-8 flex-1">
         <div><br></div>
-        <h2 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-green-800">Welcome Back Dude</h2>
+        <h2 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-green-800">Welcome Back!</h2>
 
         <!-- Jika ada error, tampilkan pesan -->
         @if ($errors->any())
@@ -70,7 +70,7 @@
             </div>
             <p class="mt-4 text-right">
                  <a href="{{ route('login') }}" class="font-bold text-black text-sm hover:underline">Forgot Password?</a>
-            </p>    
+            </p>
             <div><br></div>
             <button type="submit" class="w-full bg-green-700 text-white px-4 py-2 rounded-full hover:bg-green-600">
                 Log In
