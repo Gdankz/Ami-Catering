@@ -15,12 +15,14 @@ Route::post('register', [AuthController::class, 'register']);
 //Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
 Route::get('/dashboard', [PelangganController::class, 'index'])->name('dashboard');
+Route::get('/profil', [PelangganController::class, 'showProfile'])->name('profil');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/edit-alamat', [AuthController::class, 'editAlamat'])->name('edit-alamat');
     Route::post('/update-alamat', [AuthController::class, 'updateAlamat'])->name('update-alamat');
     Route::get('/edit-nohp', [AuthController::class, 'editNoHp'])->name('edit-nohp');
     Route::post('/update-nohp', [AuthController::class, 'updateNoHp'])->name('update-nohp');
+
 });
 
 // Tambahkan route untuk logout
