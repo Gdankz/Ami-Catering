@@ -5,20 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .ukuran {
+            width: 100%; /* Mengatur lebar gambar menjadi 100% dari kontainer */
+        }
+    </style>
 </head>
-<body class="bg-green-50 flex items-center justify-center min-h-screen">
+<body class="bg-white flex min-h-screen">
 
-<div class="bg-white shadow-md rounded-lg flex flex-col md:flex-row max-w-4xl w-full">
+    <div class="flex w-full">
     <!-- Image section -->
-    <div class="bg-green-100 p-4 md:p-8 flex items-center justify-center md:w-5/12 w-full rounded-t-lg md:rounded-l-lg md:rounded-tr-none">
-        <div>
-            <img src="/images/Sign_Up_image.png" alt="Broccoli" class="w-full md:w-64 mx-auto">
-        </div>
+    <div class="flex items-center justify-center w-1/3 ml-4""> <!-- Kontainer untuk gambar, mengambil 1/3 lebar halaman -->
+        <img src="/images/Sign_Up_image.png" alt="Gambar 1" class="object-cover ukuran h-auto m-4"> <!-- Menampilkan gambar dengan properti object-cover untuk menjaga rasio, lebar sesuai dengan kelas 'ukuran', tinggi otomatis, dan margin ditambahkan -->
     </div>
 
-    <!-- Form section -->
-    <div class="p-4 md:p-8 flex-1">
-        <h2 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-green-800">Create an account</h2>
+ <!-- Form section -->
+ <div class="flex flex-col justify-center p-8 w-full md:w-2/4"> <!-- Kontainer untuk form login, disusun secara vertikal (flex-col) dan dipusatkan, mengambil 2/3 lebar halaman -->
+    <h2 class="text-xl md:text-2xl font-bold mb-4 text-green-800">Create an account</h2> <!-- Judul halaman dengan ukuran dan warna teks yang telah ditentukan -->
 
         <!-- Jika ada error, tampilkan pesan -->
         @if ($errors->any())
@@ -57,11 +60,11 @@
             </div>
 
 
-        <button type="submit" class="w-full bg-green-700 text-white px-4 py-2 rounded-full hover:bg-green-600">
+        <button type="submit" class="w-full bg-[#143109] text-white px-4 py-2 rounded-full hover:bg-green-600">
                 Sign Up
             </button>
 
-            <p class="mt-4 text-center">Already have an account? <a href="{{ route('login') }}" class="text-blue-500 hover:underline">Login here</a>.</p>
+            <p class="mt-4 text-center">Already have an account? <a href="{{ route('login') }}" class="font-bold text-black text-sm hover:underline">Login here</a>.</p>
         </form>
     </div>
 </div>
