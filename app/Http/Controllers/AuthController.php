@@ -84,6 +84,48 @@ class AuthController extends Controller
         return redirect()->route('login');
     }
 
+    // Menampilkan halaman edit alamat
+    public function editAlamat()
+    {
+        $user = Auth::user();
+        return view('edit-alamat', compact('user'));
+    }
+
+    // Mengupdate alamat pengguna
+    public function updateAlamat(Request $request)
+    {
+        $request->validate([
+            'alamat' => 'required|string|max:255',
+        ]);
+
+        $user = Auth::user();
+        $user->alamat = $request->input('alamat');
+        $user->save();
+
+        return redirect()->route('dashboard')->with('success', 'Alamat berhasil diperbarui.');
+    }
+
+    // Menampilkan halaman edit nomor HP
+    public function editNoHp()
+    {
+        $user = Auth::user();
+        return view('edit-nohp', compact('user'));
+    }
+
+    // Mengupdate nomor HP pengguna
+    public function updateNoHp(Request $request)
+    {
+        $request->validate([
+            'noHP' => 'required|string|max:15',
+        ]);
+
+        $user = Auth::user();
+        $user->noHP = $request->input('noHP');
+        $user->save();
+
+        return redirect()->route('dashboard')->with('success', 'No HP berhasil diperbarui.');
+    }
+
 //    public function dashboard(Request $request){
 //        $pelanggan = Auth::user();
 //
