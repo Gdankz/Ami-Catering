@@ -25,5 +25,9 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
+Route::get('/menu', function () {
+    return view('menu');
+})->name('menu');
+
 // Tambahkan route untuk logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
