@@ -22,7 +22,7 @@
 
     <!-- Form section -->
     <div class="flex flex-col justify-center p-8 w-full md:w-2/4"> <!-- Kontainer untuk form login, disusun secara vertikal (flex-col) dan dipusatkan, mengambil 2/3 lebar halaman -->
-        <h2 class="text-xl md:text-2xl font-bold mb-4 text-green-800">Welcome Back Dude</h2> <!-- Judul halaman dengan ukuran dan warna teks yang telah ditentukan -->
+        <h2 class="text-xl md:text-2xl font-bold mb-4 text-green-800">Welcome Back !!!</h2> <!-- Judul halaman dengan ukuran dan warna teks yang telah ditentukan -->
 
         <!-- Jika ada error, tampilkan pesan -->
         @if ($errors->any()) <!-- Mengecek apakah ada kesalahan -->
