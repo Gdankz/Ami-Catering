@@ -130,7 +130,7 @@ class AuthController extends Controller
 //        $pelanggan = Auth::user();
 //
 //        // Debugging: Log data pelanggan yang login
-////        \Log::info('Pelanggan yang login:', [$pelanggan]);
+//        \Log::info('Pelanggan yang login:', [$pelanggan]);
 //
 //        // Kirim data pelanggan ke view dashboard
 //        return view('dashboard', compact('pelanggan'));
