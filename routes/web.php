@@ -5,7 +5,8 @@ use App\Http\Controllers\PelangganController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
+
 
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
