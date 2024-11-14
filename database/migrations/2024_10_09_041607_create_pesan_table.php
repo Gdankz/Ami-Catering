@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +16,7 @@ class CreatePesanTable extends Migration
             $table->unsignedBigInteger('idAdmin'); // untuk foreign key
             $table->foreign('idAdmin')->references('idAdmin')->on('admin')->onDelete('cascade');
 
-            $table->unsignedBigInteger('kodeMakanan'); // untuk foreign key
+            $table->string('kodeMakanan', 255); // ubah menjadi string untuk sesuai dengan tabel makanan
             $table->foreign('kodeMakanan')->references('kodeMakanan')->on('makanan')->onDelete('cascade');
 
             $table->unsignedBigInteger('idStaff'); // untuk foreign key
