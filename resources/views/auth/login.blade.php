@@ -22,7 +22,7 @@
 
     <!-- Form section -->
     <div class="flex flex-col justify-center p-8 w-full md:w-2/4"> <!-- Kontainer untuk form login, disusun secara vertikal (flex-col) dan dipusatkan, mengambil 2/3 lebar halaman -->
-        <h2 class="text-xl md:text-2xl font-bold mb-4 text-green-800">Welcome Back !!!</h2> <!-- Judul halaman dengan ukuran dan warna teks yang telah ditentukan -->
+        <h2 class="text-xl md:text-2xl font-bold mb-4 text-green-800">Welcome Back</h2> <!-- Judul halaman dengan ukuran dan warna teks yang telah ditentukan -->
 
         <!-- Jika ada error, tampilkan pesan -->
         @if ($errors->any()) <!-- Mengecek apakah ada kesalahan -->
@@ -37,7 +37,7 @@
 
         <form action="{{ route('login') }}" method="POST" class="space-y-4"> <!-- Form untuk login dengan metode POST -->
             @csrf <!-- Token CSRF untuk keamanan -->
-            
+
             <div>
                 <input type="email" name="email" placeholder="Email" class="w-full border-b border-gray-300 focus:outline-none focus:border-green-500 placeholder-gray-400" value="{{ old('email') }}" required> <!-- Menyimpan nilai lama jika ada kesalahan -->
             </div>
@@ -47,11 +47,11 @@
             </div>
             <p class="mt-4 text-right"> <!-- Paragraf untuk tautan 'Forgot Password?' -->
                  <a href="{{ route('login') }}" class="font-bold text-black text-sm hover:underline">Forgot Password?</a> <!-- Tautan untuk reset password -->
-            </p>    
+            </p>
             <button type="submit" class="w-full bg-[#143109] text-white px-4 py-2 rounded-full hover:bg-green-600"> <!-- Tombol untuk submit form -->
                 Log In
             </button>
-            
+
             <p class="mt-4 text-center">Don’t have an account? <a href="{{ route('register') }}" class="font-bold text-black text-sm hover:underline">Sign Up</a>.</p> <!-- Tautan untuk registrasi bagi pengguna baru -->
         </form>
     </div>
