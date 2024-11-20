@@ -32,10 +32,24 @@
                 <li><strong>No HP:</strong> {{ auth()->user()->noHP }}</li>
             </ul>
         </div>
-        <div class="mt-6 space-y-2">
-            <a href="{{ route('edit-alamat') }}" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Edit Alamat</a>
-            <a href="{{ route('edit-nohp') }}" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Edit No HP</a>
-            <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Lihat Layanan Kami</a>
+            <div class="mt-6 space-y-2">
+                <a href="{{ route('edit-alamat') }}" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Edit Alamat</a>
+                <a href="{{ route('edit-nohp') }}" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Edit No HP</a>
+                <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Lihat Layanan Kami</a>
+
+                <!-- Button hanya ditampilkan jika role pengguna adalah admin -->
+                @if(auth()->user()->role === 'admin')
+                    <h3 class="text-lg font-bold text-blue-500 mt-6">Admin Panel</h3>
+                    <div class="space-y-2">
+                        <a href="{{ route('homeAdmin') }}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Home Admin</a>
+                        <a href="{{ route('menuAdmin') }}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Kelola Menu</a>
+                        <a href="{{ route('staff') }}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Kelola Staff</a>
+                        <a href="{{ route('cutomerAdmin') }}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Kelola Pelanggan</a>
+                        <a href="{{ route('pesananAdmin') }}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Kelola Pesanan</a>
+                        <a href="{{ route('laporan') }}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Laporan</a>
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 </div>
