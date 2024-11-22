@@ -47,6 +47,46 @@
         </div>
     </section>
 
+
+
+
+<<!-- Div About -->
+        <section id="about" class="my-12 flex items-center justify-between p-8 bg-white mt-56 relative z-10 h-[690px]">
+            <div class="flex-shrink-0 w-1/3">
+                <img src="images/logo_about.png" alt="Ami Catering" class="w-full h-auto max-w-[400px]">
+            </div>
+            <div class="w-2/3 text-right">
+                <h1 class="text-6xl font-bold text-[#143109] text-right">About Us</h1>
+                <p class="text-xl text-black-700 mt-4 text-justify">
+                    Starting from Dea's grandmother's passion for cooking, Ami Catering was created with love. Dea's
+                    grandmother, who loved to cook, started selling her food creations, and Dea’s mother, Ami, who
+                    witnessed her grandmother's cooking skills, took note of the recipes and started trying them out. As
+                    it turned out, the food received rave reviews from many people.
+                    <br><br>
+                    With the experience of working in several catering service providers, Ami finally decided to open
+                    her own catering business in 2010. Since then, “Ami Catering” has been specializing in “Traditional
+                    Cuisine with a Modern Touch.” We combine classic recipes with a more modern presentation, using
+                    local ingredients and the latest culinary techniques.
+                    <br><br>
+                    We also offer “Healthy Meal Package” consisting of low-fat, low-sugar, and high-fiber dishes, to
+                    appeal to customers who are concerned about their health. In addition, “Green Catering” is our focus
+                    by using organic, local, and sustainable ingredients, to meet the needs of customers looking for
+                    greener options.
+                    <br><br>
+                    For customers who live a vegan or vegetarian lifestyle, we provide “Vegan or Vegetarian Meal
+                    Package” with creative and delicious menus. These dishes are creative variations of classic meatless
+                    dishes, designed to satisfy the palate while meeting customers' nutritional needs.
+                    <br><br>
+                    With our commitment to quality and innovation, “Ami Catering” is ready to be the first choice for
+                    your various culinary needs.
+                </p>
+            </div>
+        </section>
+
+
+
+
+
     <script>
         const bowlImage = document.getElementById('bowlImage');
         const contentDiv = document.getElementById('content');

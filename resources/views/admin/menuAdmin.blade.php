@@ -46,6 +46,48 @@
             height: auto;
             border-radius: 10px;
         }
+        .food-image {
+            max-width: 100%; /* Agar gambar tidak melebihi lebar kontainer */
+            max-height: 450px; /* Tinggi maksimal 500px */
+            height: auto; /* Menyesuaikan tinggi agar proporsi tetap */
+            object-fit: contain; /* Alternatif: Bisa gunakan cover untuk mengisi seluruh kotak */
+            border-radius: 10px; /* Opsional */
+        }
+
+        /* notifiactin  */
+        .notification-overlay {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Styles for notification */
+        .notification {
+        position: fixed;
+        top: 50%; /* Posisi vertikal 50% dari atas */
+        left: 50%; /* Posisi horizontal 50% dari kiri */
+        transform: translate(-50%, -50%); /* Menyelaraskan ke tengah */
+        z-index: 1000;
+        display: none;
+        padding: 16px;
+        border-radius: 8px;
+        color: #000000;
+        background-color: #ffffff;
+        border: 1px solid #888;
+        }
+
+        .notification.success {
+            background-color: #ffffff;
+        }
+
+        .notification.error {
+            background-color: #ffffff;
+        }
     </style>
 </head>
 
@@ -53,76 +95,141 @@
     <!-- Memanggil navbar -->
     @include('partials.navBarAdmin')
 
-    <div class="flex justify-start p-4">
-        <button id="tambahMakananBtn" class="flex items-center ml-10 mt-10">
-            <img src="..\images\tombolAdd.png" alt="Tambah Makanan" class="btn-image w-[60%] mr-1">
+    <!-- Notification Overlay -->
+    <div class="notification-overlay" id="notificationOverlay"></div>
+    <!-- Notifikasi Pop-Up -->
+    @if (session('success'))
+        <div class="notification success fade">
+            {{ session('success') }}
+        </div>
+    @elseif (session('error'))
+        <div class="notification error fade">
+            {{ session('error') }}
+        </div>
+    @endif
+    <div class="flex flex-wrap gap-5 justify-center items-stretch mt-10">
+        <!-- Tombol Tambah Makanan -->
+        <button id="tambahMakananBtn" class="w-[30%] flex flex-col justify-center items-center   rounded-lg p-4  ">
+            <img src="..\images\tombolAdd.png" alt="Tambah Makanan" class="btn-image w-[60%] mb-2"> 
         </button>
+        
+
+    
+        <div id="myModal" class="modal">
+            <div class="modal-content"> 
+                <form id="foodForm" action="{{ isset($makanan) ? route('makanan.update', $makanan->kodeMakanan) : route('makanan.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                    @csrf
+                    @if(isset($makanan))
+                        @method('PUT') <!-- Menambahkan method PUT untuk update -->
+                    @endif
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div id="imagePreview" class="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                            @if(isset($makanan) && $makanan->gambarMakanan)
+                                <img src="{{ asset('storage/' . $makanan->gambarMakanan) }}" class="w-full h-full object-cover rounded-full" />
+                            @else
+                                <span class="text-gray-500 text-sm">Ellipse</span>
+                            @endif
+                        </div>
+                        <input type="file" id="imageInput" name="image" accept="image/*" class="hidden" onchange="loadFile(event)">
+                        <button type="button" onclick="document.getElementById('imageInput').click()"
+                            class="px-4 py-2 bg-[#FFFFFF] text-[#143109] rounded-lg border-2 border-[#143109]">Choose Photo</button>
+                    </div>
+                    
+                    <div class="flex items-center border-b-[2px] border-[#143109] pb-2">
+                        <label for="category" class="w-1/3">Category</label>
+                        <input type="text" id="category" name="category" value="{{ old('category', $makanan->category ?? '') }}" required
+                            class="w-2/3 p-2 bg-transparent border-none outline-none">
+                    </div>
+                    
+                    <div class="flex items-center border-b-[2px] border-[#143109] pb-2">
+                        <label for="name" class="w-1/3">Name</label>
+                        <input type="text" id="name" name="name" value="{{ old('name', $makanan->namaMakanan ?? '') }}" required
+                            class="w-2/3 p-2 bg-transparent border-none outline-none">
+                    </div>
+            
+                    <div class="flex items-center border-b-[2px] border-[#143109] pb-2">
+                        <label for="price" class="w-1/3">Price</label>
+                        <input type="number" id="price" name="price" value="{{ old('price', $makanan->harga ?? '') }}" required
+                            class="w-2/3 p-2 bg-transparent border-none outline-none">
+                    </div>
+            
+                    <div class="mt-4">
+                        <label class="block font-semibold mb-2">Availability</label>
+                        <div class="flex items-center space-x-4">
+                            <label class="flex items-center space-x-2">
+                                <input type="radio" name="availability" value=1 class="form-radio" {{ (isset($makanan) && $makanan->availability == true) ? 'checked' : '' }} required>
+                                <span>Available</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="radio" name="availability" value=0 class="form-radio" {{ (isset($makanan) && $makanan->availability == false) ? 'checked' : '' }}>
+                                <span>Unavailable</span>
+                            </label>
+                        </div>
+                    </div>
+                  
+                    <div class="flex justify-end space-x-2 mt-4">
+                        <button type="button" id="cancelBtn"
+                            class="px-4 py-2 bg-[#FFFFFF] text-[#143109] rounded-lg border-2 border-[#143109]">Cancel</button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-[#143109] text-[#FFFFFF] rounded-lg border-2 border-[#143109]">Save</button>
+                    </div>
+                </form>
+            </div>
     </div>
-
-    <div id="myModal" class="modal">
-        <div class="modal-content"> 
-            <form id="foodForm" class="space-y-4">
-                <!-- Image and Choose Photo Button -->
-                <div class="flex items-center space-x-4 mb-4">
-                    <div id="imagePreview" class="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
-                        <span class="text-gray-500 text-sm">Ellipse</span>
-                    </div>
-                    <input type="file" id="imageInput" accept="image/*" class="hidden" onchange="loadFile(event)">
-                    <button type="button" onclick="document.getElementById('imageInput').click()"
-                        class="px-4 py-2 bg-[#FFFFFF] text-[#143109] rounded-lg border-2 border-[#143109]">Choose Photo</button>
-                </div>
-
-                <!-- Input Category -->
-                <div class="flex items-center border-b-[2px] border-[#143109] pb-2">
-                    <label for="category" class="w-1/3">Category</label>
-                    <input type="text" id="category" name="category" required
-                        class="w-2/3 p-2 bg-transparent border-none outline-none">
-                </div>
-
-                <!-- Input Name -->
-                <div class="flex items-center border-b-[2px] border-[#143109] pb-2">
-                    <label for="name" class="w-1/3">Name</label>
-                    <input type="text" id="name" name="name" required
-                        class="w-2/3 p-2 bg-transparent border-none outline-none">
-                </div>
-
-                <!-- Input Price -->
-                <div class="flex items-center border-b-[2px] border-[#143109] pb-2">
-                    <label for="price" class="w-1/3">Price</label>
-                    <input type="number" id="price" name="price" required
-                        class="w-2/3 p-2 bg-transparent border-none outline-none">
-                </div>
-
-                <!-- Availability Checkbox -->
-                <div class="mt-4">
-                    <label class="block font-semibold mb-2">Availability</label>
-                    <div class="flex items-center space-x-4">
-                        <label class="flex items-center space-x-2">
-                            <input type="radio" name="availability" value="available" class="form-radio" required>
-                            <span>Available</span>
-                        </label>
-                        <label class="flex items-center space-x-2">
-                            <input type="radio" name="availability" value="unavailable" class="form-radio">
-                            <span>Unavailable</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="flex justify-end space-x-2 mt-4">
-                    <button type="button" id="cancelBtn"
-                        class="px-4 py-2 bg-[#FFFFFF] text-[#143109] rounded-lg border-2 border-[#143109]">Cancel</button>
-                    <button type="submit"
-                        class="px-4 py-2 bg-[#FFFFFF] text-[#143109] rounded-lg border-2 border-[#143109]">Save</button>
-                </div>
-            </form>
+     
+  <!-- Daftar Makanan -->
+@foreach ($makanans as $makanan)
+<div class="w-[30%] h-[80vh] max-w-[70%]   rounded-lg   flex flex-col">
+    <!-- Area Gambar (80%) -->
+    <div class="flex-grow flex items-center justify-center  rounded-t-lg overflow-hidden">
+        <img src="{{ asset('storage/' . $makanan->gambarMakanan) }}" 
+             alt="{{ $makanan->namaMakanan }}" 
+             class="max-h-full max-w-full object-contain">
+    </div>
+    <!-- Area Keterangan (20%) -->
+    <div class="p-4">
+        <h3 class="text-lg font-semibold">{{ $makanan->namaMakanan }}</h3>
+        <p class="text-gray-500">{{ $makanan->jenisMakanan }}</p>
+        <div class="flex justify-between items-center mt-4">
+            <p class="text-gray-700">Rp {{ number_format($makanan->harga, 0, ',', '.') }}</p>
+            <div class="flex items-center gap-2">
+                <!-- Tombol Edit --> 
+               <a href="javascript:void(0);" onclick="openEditModal(
+                '{{ $makanan->kodeMakanan }}',
+                '{{ $makanan->namaMakanan }}',
+                '{{ $makanan->jenisMakanan }}',
+                '{{ $makanan->harga }}',
+                '{{ $makanan->category ?? '' }}',
+                '{{ $makanan->availability ?? '' }}',
+                '{{ $makanan->gambarMakanan ? asset('storage/' . $makanan->gambarMakanan) : '' }}'
+                )" class="text-blue-500">
+                <img src="{{ asset('..\images\edit.png') }}" alt="Edit" class="w-6 h-6">
+            </a>
+                <!-- Tombol Hapus -->
+                <form action="{{ route('makanan.destroy', $makanan->kodeMakanan) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="text-red-500">
+                        <img src="{{ asset('..\images\delete.png') }}" alt="Hapus" class="w-6 h-6">
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
+</div>
+@endforeach
 
+
+</div>
     <script>
         var modal = document.getElementById("myModal");
         var btn = document.getElementById("tambahMakananBtn");
         var cancelBtn = document.getElementById("cancelBtn");
         var imagePreview = document.getElementById("imagePreview");
+        var notificationOverlay = document.getElementById("notificationOverlay");
+
+ 
+
 
         // Open Modal
         btn.onclick = function () {
@@ -154,18 +261,49 @@
             imagePreview.innerHTML = '<span class="text-gray-500 text-sm">Ellipse</span>';
         }
 
-        // Form Submit Handler
-        document.getElementById("foodForm").onsubmit = function (e) {
-            e.preventDefault();
-            var category = document.getElementById("category").value;
-            var name = document.getElementById("name").value;
-            var price = document.getElementById("price").value;
-
-            console.log("Category:", category, "Name:", name, "Price:", price);
-
-            closeModal();
+        // Show Notification Function with Overlay
+        function showNotification(type, message) {
+            var notification = document.querySelector('.notification.' + type);
+            notification.innerText = message;
+            notificationOverlay.style.display = 'block';
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.classList.add('fade-out');
+                notificationOverlay.style.display = 'none'; // Hide overlay when notification fades out
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                    notification.classList.remove('fade-out');
+                }, 500); // Wait for the fade-out to complete
+            }, 500); // Display for 3 seconds
         }
-    </script>
-</body>
+        
+        // Check if there is a notification to show
+        @if (session('success'))
+            showNotification('success', '{{ session('success') }}');
+        @elseif (session('error'))
+            showNotification('error', '{{ session('error') }}');
+        @endif
+ 
+    // Fungsi untuk membuka modal dan menampilkan data
+    function openEditModal(kodeMakanan, namaMakanan, jenisMakanan, harga, kategori, availability, gambar) {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "block";
 
-</html>
+        // Update action form untuk update data makanan
+        document.getElementById("foodForm").action = `/makanans/${kodeMakanan}`;
+        document.getElementById("foodForm").querySelector('input[name="_method"]').value = "PUT";
+
+        // Isi form dengan data dari parameter
+        document.getElementById("category").value = kategori || '';  // Pastikan null atau undefined tidak mengganggu
+        document.getElementById("name").value = namaMakanan || '';
+        document.getElementById("price").value = harga || '';
+        document.querySelector(`input[name="availability"][value="${availability}"]`).checked = true;
+
+        // Update preview gambar
+        var imagePreview = document.getElementById("imagePreview");
+        imagePreview.innerHTML = gambar ? 
+            `<img src="${gambar}" class="w-full h-full object-cover rounded-full" />` : 
+            '<span class="text-gray-500 text-sm">Ellipse</span>';
+    }
+</script>

@@ -33,9 +33,19 @@ Route::get('/admin/home', function () {
 })->name('homeAdmin');
 
 
-Route::get('/admin/menu', function () {
-    return view('admin.menuAdmin'); // Buat view sesuai kebutuhan
-})->name('menuAdmin');
+
+//bagian menambahkan data makanan dari admin ke database
+// Route::get('/admin/menu', function () {
+//     return view('admin.menuAdmin'); // Buat view sesuai kebutuhan
+// })->name('menuAdmin'); 
+use App\Http\Controllers\MakananController;
+Route::post('/makanan/store', [MakananController::class, 'store'])->name('makanan.store');
+Route::get('/admin/menu', [MakananController::class, 'index'])->name('menuAdmin');
+Route::get('/makanan/{kodeMakanan}/edit', [MakananController::class, 'edit'])->name('makanan.edit');
+Route::put('/makanan/{kodeMakanan}', [MakananController::class, 'update'])->name('makanan.update');
+Route::delete('/makanan/{kodeMakanan}', [MakananController::class, 'destroy'])->name('makanan.destroy'); 
+Route::resource('/makanans', MakananController::class); 
+
 
 Route::get('/admin/staff', function () {
     return view('admin.staff'); // Buat view sesuai kebutuhan
@@ -53,3 +63,4 @@ Route::get('/admin/pesanan', function () {
 Route::get('/admin/laporan', function () {
     return view('admin.laporan'); // Buat view sesuai kebutuhan
 })->name('laporan');
+
