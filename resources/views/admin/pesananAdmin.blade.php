@@ -8,78 +8,67 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .fade {
-            transition: opacity 0.5s ease-in-out; /* Menambahkan transisi untuk opacity */
+            transition: opacity 0.5s ease-in-out;
             opacity: 1;
         }
+
         .fade-out {
-            opacity: 0; /* Opacity 0 untuk efek menghilang */
+            opacity: 0;
         }
+
         table {
-    width: 90%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    font-family: Arial, sans-serif;
-  }
-  th, td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
-  }
-  th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-  }
+            width: 90%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
     </style>
 </head>
 
 <body class="bg-[#FFFFFF] min-h-screen flex flex-col">
-    <!-- Memanggil navbar -->
-    @include('partials.navBarAdmin')
+<!-- Memanggil navbar -->
+@include('partials.navBarAdmin')
+
 <!-- Search Bar -->
 <div class="flex justify-center mb-6">
-    <input type="text" placeholder="Search" class="w-1/2 border rounded-full px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-center">
+    <input type="text" placeholder="Search"
+           class="w-1/2 border rounded-full px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-center">
 </div>
 
 <div class="flex justify-center">
     <table>
-      <tr>
-        <th>Order ID</th>
-        <th>Name</th>
-        <th>Menu Name</th>
-        <th>Delivery Date</th>
-        <th>Detail</th>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <!-- Tambahkan baris lainnya sesuai kebutuhan -->
+        <tr>
+            <th>Order ID</th>
+            <th>Name</th>
+            <th>Menu Name</th>
+            <th>Delivery Date</th>
+            <th>Detail</th>
+        </tr>
+        @foreach ($pelanggan as $pelanggan)
+            <tr>
+                <td>{{ $pelanggan->idPelanggan }}</td>
+                <td>{{ $pelanggan->nama }}</td>
+                <td>{{ $pelanggan->menu_name ?? 'N/A' }}</td>
+                <td>{{ $pelanggan->delivery_date ?? 'N/A' }}</td>
+                <td>
+                    <a href="{{ route('detail.pelanggan', ['id' => $pelanggan->idPelanggan]) }}" class="text-blue-500 hover:underline">Detail</a>
+                </td>
+            </tr>
+        @endforeach
     </table>
-    
 </div>
-    </body>
-    </html>
+</body>
+
+</html>
