@@ -18,7 +18,10 @@ Route::get('register', [AuthController::class, 'showRegisterForm'])->name('regis
 Route::post('register', [AuthController::class, 'register']);
 //Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
-Route::get('/dashboard', [PelangganController::class, 'index'])->name('dashboard');
+Route::middleware(['auth:pelanggan'])->group(function () {
+    Route::get('/dashboard', [PelangganController::class, 'index'])->name('dashboard');
+});
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/edit-alamat', [AuthController::class, 'editAlamat'])->name('edit-alamat');

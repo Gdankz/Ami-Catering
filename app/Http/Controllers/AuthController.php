@@ -20,16 +20,14 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        $datalogin = [
-            'email' => $request->email,
-            'password' => $request->password
-        ];
+        $credentials = $request->only('email', 'password');
 
-    //    dd($datalogin);
-
-        if(Auth::attempt($datalogin)){
+        if (Auth::guard('pelanggan')->attempt($credentials)) {
             return redirect()->route('dashboard');
         }
+
+        return back()->withErrors(['email' => 'Email atau password salah.'])->withInput();
+    }
 
         // Mencari pelanggan berdasarkan email
 //        $pelanggan = Pelanggan::where('email', $request->email)->first();
@@ -47,7 +45,6 @@ class AuthController extends Controller
 //        return back()->withErrors([
 //            'email' => 'The provided credentials do not match our records.',
 //        ]);
-    }
 
 
     public function showRegisterForm()

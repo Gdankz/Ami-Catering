@@ -36,9 +36,9 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'pelanggan' => [
             'driver' => 'session',
-            'provider' => 'Pelanggan',
+            'provider' => 'pelanggan',
         ],
     ],
 
@@ -60,7 +60,7 @@ return [
     */
 
     'providers' => [
-        'Pelanggan' => [
+        'pelanggan' => [
             'driver' => 'eloquent',
             'model' => App\Models\Pelanggan::class,
         ],
@@ -71,7 +71,7 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
-    
+
 
     /*
     |--------------------------------------------------------------------------
