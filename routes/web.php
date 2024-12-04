@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\PesanController;
 
 
 Route::get('/', function () {
@@ -61,4 +61,7 @@ Route::get('/admin/laporan', function () {
     return view('admin.laporan'); // Buat view sesuai kebutuhan
 })->name('laporan');
 
-Route::get('/admin/pelanggan', [AdminController::class, 'showPelanggan'])->name('pelanggan.admin');
+Route::get('/admin/pesanan', [PesanController::class, 'index'])->name('pesananAdmin');
+
+
+

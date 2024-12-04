@@ -4,69 +4,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ami Catering</title>
+    <title>Pesanan Admin - Ami Catering</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .fade {
-            transition: opacity 0.5s ease-in-out;
-            opacity: 1;
-        }
-
-        .fade-out {
-            opacity: 0;
-        }
-
-        table {
-            width: 90%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            font-family: Arial, sans-serif;
-        }
-
-        th,
-        td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-    </style>
 </head>
 
-<body class="bg-[#FFFFFF] min-h-screen flex flex-col">
-<!-- Memanggil navbar -->
+<body class="bg-gray-100 min-h-screen flex flex-col">
+<!-- Navbar -->
 @include('partials.navBarAdmin')
 
-<!-- Search Bar -->
-<div class="flex justify-center mb-6">
-    <input type="text" placeholder="Search"
-           class="w-1/2 border rounded-full px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-center">
+<!-- Header -->
+<div class="flex justify-center my-6">
+    <h1 class="text-3xl font-bold text-gray-700">Daftar Pesanan</h1>
 </div>
 
+<!-- Tabel Pesanan -->
 <div class="flex justify-center">
-    <table>
-        <tr>
-            <th>Order ID</th>
-            <th>Name</th>
-            <th>Menu Name</th>
-            <th>Delivery Date</th>
-            <th>Detail</th>
+    <table class="border-collapse border border-gray-300 w-4/5 bg-white shadow-lg">
+        <thead>
+        <tr class="bg-gray-100">
+            <th class="border border-gray-300 px-4 py-2">No Pesanan</th>
+            <th class="border border-gray-300 px-4 py-2">ID Pelanggan</th>
+            <th class="border border-gray-300 px-4 py-2">ID Admin</th>
+            <th class="border border-gray-300 px-4 py-2">Kode Makanan</th>
+            <th class="border border-gray-300 px-4 py-2">ID Staff</th>
+            <th class="border border-gray-300 px-4 py-2">Status Antar</th>
+            <th class="border border-gray-300 px-4 py-2">Tanggal Pesan</th>
+            <th class="border border-gray-300 px-4 py-2">Tanggal Selesai</th>
+            <th class="border border-gray-300 px-4 py-2">Total Biaya</th>
+            <th class="border border-gray-300 px-4 py-2">Aksi</th>
         </tr>
-        @foreach ($pelanggan as $pelanggan)
+        </thead>
+        <tbody>
+        @forelse ($pesanan as $pesan)
             <tr>
-                <td>{{ $pelanggan->idPelanggan }}</td>
-                <td>{{ $pelanggan->nama }}</td>
-                <td>{{ $pelanggan->menu_name ?? 'N/A' }}</td>
-                <td>{{ $pelanggan->delivery_date ?? 'N/A' }}</td>
-                <td>
-                    <a href="{{ route('detail.pelanggan', ['id' => $pelanggan->idPelanggan]) }}" class="text-blue-500 hover:underline">Detail</a>
+                <td class="border border-gray-300 px-4 py-2 text-center">{{ $pesan->noPesanan }}</td>
+                <td class="border border-gray-300 px-4 py-2 text-center">{{ $pesan->idPelanggan }}</td>
+                <td class="border border-gray-300 px-4 py-2 text-center">{{ $pesan->idAdmin }}</td>
+                <td class="border border-gray-300 px-4 py-2 text-center">{{ $pesan->kodeMakanan }}</td>
+                <td class="border border-gray-300 px-4 py-2 text-center">{{ $pesan->idStaff }}</td>
+                <td class="border border-gray-300 px-4 py-2 text-center">{{ $pesan->statusAntar }}</td>
+                <td class="border border-gray-300 px-4 py-2 text-center">{{ $pesan->tanggalPesan }}</td>
+                <td class="border border-gray-300 px-4 py-2 text-center">{{ $pesan->tanggalSelesai }}</td>
+                <td class="border border-gray-300 px-4 py-2 text-right">{{ number_format($pesan->totalBiaya, 2) }}</td>
+                <td class="border border-gray-300 px-4 py-2 text-center">
+                    <a href="{{ route('admin.pesanan.detail', ['id' => $pesan->noPesanan]) }}" class="text-blue-500 hover:underline">Detail</a>
                 </td>
             </tr>
-        @endforeach
+        @empty
+            <tr>
+                <td colspan="10" class="border border-gray-300 px-4 py-2 text-center text-gray-500">Tidak ada data pesanan.</td>
+            </tr>
+        @endforelse
+        </tbody>
     </table>
 </div>
 </body>
