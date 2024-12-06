@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
-
 class Pelanggan extends Model implements Authenticatable
 {
     use HasFactory, AuthenticableTrait;
@@ -19,6 +18,7 @@ class Pelanggan extends Model implements Authenticatable
         'noHP',
         'email',
         'password',
+        'role', // Pastikan kolom role juga termasuk dalam fillable
     ];
 
     public $timestamps = false;

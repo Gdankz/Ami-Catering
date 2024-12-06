@@ -46,7 +46,7 @@
 
         </div>
     </section>
-
+    
 
 
 
@@ -144,6 +144,13 @@
                 <h1 class="text-2xl font-bold text-left text-[#143109]">VEGAN AND VEGETARIAN</h1>
                 <h2 class="text-lg text-left text-[#143109]">We also provide "Vegan or Vegetarian Meal Packages" including vegan dishes and variations of classic dishes without meat.</h2>
             `);
+        });
+
+        // Menggunakan tombol About untuk scroll ke bagian about
+        document.getElementById('aboutButton').addEventListener('click', function () {
+            document.getElementById('about').scrollIntoView({
+                behavior: 'smooth'
+            });
         });
     </script>
 </body>

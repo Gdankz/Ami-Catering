@@ -13,8 +13,6 @@ class PelangganController extends Controller
         // Ambil data pelanggan yang sedang login
 //        $pelanggan = Auth::user();
 
-//        $iduser = Auth::user();
-//        dd($iduser);
         $pelanggan = Auth::user();
 //        dd($pelanggan);
 
@@ -23,6 +21,15 @@ class PelangganController extends Controller
 
         // Kirim data pelanggan ke view dashboard
         return view('dashboard', ['pelanggan' => $pelanggan]);
+    }
+
+    public function showProfile()
+    {
+        // Mendapatkan data pengguna yang sedang login
+        $pelanggan = Auth::user();
+
+        // Mengirimkan data pengguna ke view
+        return view('profil', ['pelanggan' => $pelanggan]);
     }
 }
 

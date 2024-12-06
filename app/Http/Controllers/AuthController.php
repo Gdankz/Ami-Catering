@@ -19,15 +19,18 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
-        $datalogin = [
-            'email' => $request->email,
-            'password' => $request->password
-        ];
-
-    //    dd($datalogin);
-
-        if(Auth::attempt($datalogin)){
+    
+        // Mencoba otentikasi dengan email dan password
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            // Mendapatkan pengguna yang sedang login
+            $user = Auth::user();
+    
+            // Redirect berdasarkan role
+            if ($user->role === 'admin') {
+                return redirect()->route('homeAdmin');
+            }
+    
+            // Redirect ke dashboard pelanggan
             return redirect()->route('dashboard');
         }
 
@@ -81,7 +84,7 @@ class AuthController extends Controller
         Auth::logout();
 
         // Redirect ke halaman login setelah logout
-        return redirect()->route('login');
+        return redirect()->route('welcome');
     }
 
     // Menampilkan halaman edit alamat
@@ -126,11 +129,53 @@ class AuthController extends Controller
         return redirect()->route('dashboard')->with('success', 'No HP berhasil diperbarui.');
     }
 
+//    // Menampilkan halaman edit alamat
+//    public function editAlamat()
+//    {
+//        $user = Auth::user();
+//        return view('edit-alamat', compact('user'));
+//    }
+//
+//    // Mengupdate alamat pengguna
+//    public function updateAlamat(Request $request)
+//    {
+//        $request->validate([
+//            'alamat' => 'required|string|max:255',
+//        ]);
+//
+//        $user = Auth::user();
+//        $user->alamat = $request->input('alamat');
+//        $user->save();
+//
+//        return redirect()->route('dashboard')->with('success', 'Alamat berhasil diperbarui.');
+//    }
+//
+//    // Menampilkan halaman edit nomor HP
+//    public function editNoHp()
+//    {
+//        $user = Auth::user();
+//        return view('edit-nohp', compact('user'));
+//    }
+//
+//    // Mengupdate nomor HP pengguna
+//    public function updateNoHp(Request $request)
+//    {
+//        $request->validate([
+//            'noHP' => 'required|string|max:15',
+//        ]);
+//
+//        $user = Auth::user();
+//        $user->noHP = $request->input('noHP');
+//        $user->save();
+//
+//        return redirect()->route('dashboard')->with('success', 'No HP berhasil diperbarui.');
+//    }
+
 //    public function dashboard(Request $request){
 //        $pelanggan = Auth::user();
 //
 //        // Debugging: Log data pelanggan yang login
-////        \Log::info('Pelanggan yang login:', [$pelanggan]);
+//        \Log::info('Pelanggan yang login:', [$pelanggan]);
 //
 //        // Kirim data pelanggan ke view dashboard
 //        return view('dashboard', compact('pelanggan'));

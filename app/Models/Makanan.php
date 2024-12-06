@@ -22,11 +22,11 @@ class Makanan extends Model
     protected $keyType = 'string';
     protected $fillable = [
         'kodeMakanan', 
-        'namaMakanan', 
-        'deskripsi', 
+        'namaMakanan',  
         'jenisMakanan', 
         'harga', 
         'gambarMakanan',
         'availability'
     ];
+    
 }

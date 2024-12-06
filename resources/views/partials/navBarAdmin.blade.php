@@ -21,7 +21,7 @@
             </a>
             <a href="{{ route('pesananAdmin') }}"
                class="relative text-[#143109] text-lg font-medium transition-all duration-300 ease-in-out {{ request()->routeIs('pesananAdmin') ? 'active' : 'hover:text-gray-700' }}">
-                Pesanan
+                Order
             </a>
             <a href="{{ route('laporan') }}"
                class="relative text-[#143109] text-lg font-medium transition-all duration-300 ease-in-out {{ request()->routeIs('laporan') ? 'active' : 'hover:text-gray-700' }}">

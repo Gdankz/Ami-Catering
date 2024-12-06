@@ -19,51 +19,51 @@ class MakananController extends Controller
 
     // Menyimpan data makanan baru
     public function store(Request $request)
-{
-    // Debugging: Lihat data yang diterima
-    
-    // Validasi data
-    $validatedData = $request->validate([
-        'name' => 'required|string',
-        'category' => 'required|string',
-        'price' => 'required|numeric',
-        'availability' => 'required|numeric',  
-        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-    ]);
-    // dd($request->all());
-    // dd($validatedData['availability']);
-    try {
-        // Generate kodeMakanan
-        $kodeMakanan = strtoupper(substr($validatedData['name'], 0, 1)) . now()->format('YmdHis');
-
-        // Simpan gambar jika ada
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            // Mengubah nama gambar sesuai nama makanan dan ekstensi file
-            $imageName = Str::slug($validatedData['name'], '_') . '.' . $request->image->getClientOriginalExtension();
-
-            // Simpan gambar di folder storage/app/public/images
-            $imagePath = $request->file('image')->storeAs('images', $imageName, 'public');
-        }
-
-        // Simpan data ke database
-        Makanan::create([
-            'kodeMakanan' => $kodeMakanan,
-            'namaMakanan' => $validatedData['name'],
-            'deskripsi' => $request->input('description', ''),
-            'jenisMakanan' => $validatedData['category'],
-            'harga' => $validatedData['price'],
-            'gambarMakanan' => $imagePath, // Simpan path gambar
-            'availability' => $validatedData['availability'], // Simpan availability sebagai boolean
+    {
+        // Debugging: Lihat data yang diterima
+        //  dd($request->all());
+        // Validasi data
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'category' => 'required|string',
+            'price' => 'required|numeric',
+            'availability' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Redirect dengan pesan sukses
-        return redirect()->back()->with('success', 'Data successfully saved!');
-    } catch (\Exception $e) {
-        // Redirect dengan pesan error
-        return redirect()->back()->with('error', 'Error saving data: ' . $e->getMessage());
+        // dd($validatedData['availability']);
+        try {
+            // Generate kodeMakanan
+            $kodeMakanan = strtoupper(substr($validatedData['name'], 0, 1)) . now()->format('YmdHis');
+
+            // Simpan gambar jika ada
+            $imagePath = null;
+            if ($request->hasFile('image')) {
+                // Mengubah nama gambar sesuai nama makanan dan ekstensi file
+                $imageName = Str::slug($validatedData['name'], '_') . '.' . $request->image->getClientOriginalExtension();
+ 
+                // Simpan gambar di folder storage/app/public/images/Makanan
+                $imagePath = $request->file('image')->storeAs('images/Makanan', $imageName, 'public');
+            }
+
+            // Simpan data ke database
+            Makanan::create([
+                'kodeMakanan' => $kodeMakanan,
+                'namaMakanan' => $validatedData['name'],
+                'deskripsi' => $request->input('description', ''),
+                'jenisMakanan' => $validatedData['category'],
+                'harga' => $validatedData['price'],
+                'gambarMakanan' => $imagePath, // Simpan path gambar
+                'availability' => $validatedData['availability'], // Simpan availability sebagai boolean
+            ]);
+
+            // Redirect dengan pesan sukses
+            return redirect()->back()->with('success', 'Data successfully saved!');
+        } catch (\Exception $e) {
+            // Redirect dengan pesan error
+            return redirect()->back()->with('error', 'Error saving data: ' . $e->getMessage());
+        }
     }
-}
 
 
     // Menampilkan form edit untuk mengubah data makanan
@@ -73,52 +73,52 @@ class MakananController extends Controller
         return view('admin.editMakanan', compact('makanan')); // Menampilkan form edit dengan data makanan
     }
 
-   // Menyimpan perubahan data makanan
-// Menyimpan perubahan data makanan
-public function update(Request $request, $kodeMakanan)
-{
-    // Debugging: Lihat data yang diterima
-    dd($request->all());
-    // Validasi data
-    $validatedData = $request->validate([
-        'name' => 'required|string',
-        'category' => 'required|string',
-        'price' => 'required|numeric', 
-        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-    'availability' => $validatedData['availability'] == '1', // Convert string '1' to boolean true
-]);
-
-
-    try {
-        $makanan = Makanan::where('kodeMakanan', $kodeMakanan)->firstOrFail();
-
-        // Update data makanan
-        $makanan->update([
-            'namaMakanan' => $validatedData['name'],
-            'deskripsi' => $request->input('description', ''),
-            'jenisMakanan' => $validatedData['category'],
-            'harga' => $validatedData['price'],
-            'availability' => $validatedData['availability'] , // Update availability sebagai boolean
+    // Menyimpan perubahan data makanan
+    // Menyimpan perubahan data makanan
+    public function update(Request $request, $kodeMakanan)
+    {
+        // Debugging: Lihat data yang diterima
+        dd($request->all());
+        // Validasi data
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'category' => 'required|string',
+            'price' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'availability' => $validatedData['availability'] == '1', // Convert string '1' to boolean true
         ]);
 
-        // Update gambar jika ada
-        if ($request->hasFile('image')) {
-            // Hapus gambar lama jika ada
-            if ($makanan->gambarMakanan) {
-                Storage::disk('public')->delete($makanan->gambarMakanan);
+
+        try {
+            $makanan = Makanan::where('kodeMakanan', $kodeMakanan)->firstOrFail();
+
+            // Update data makanan
+            $makanan->update([
+                'namaMakanan' => $validatedData['name'],
+                'deskripsi' => $request->input('description', ''),
+                'jenisMakanan' => $validatedData['category'],
+                'harga' => $validatedData['price'],
+                'availability' => $validatedData['availability'], // Update availability sebagai boolean
+            ]);
+
+            // Update gambar jika ada
+            if ($request->hasFile('image')) {
+                // Hapus gambar lama jika ada
+                if ($makanan->gambarMakanan) {
+                    Storage::disk('public')->delete($makanan->gambarMakanan);
+                }
+
+                // Simpan gambar baru
+                $imageName = Str::slug($validatedData['name'], '_') . '.' . $request->image->getClientOriginalExtension();
+                $imagePath = $request->file('image')->storeAs('images', $imageName, 'public');
+                $makanan->update(['gambarMakanan' => $imagePath]);
             }
 
-            // Simpan gambar baru
-            $imageName = Str::slug($validatedData['name'], '_') . '.' . $request->image->getClientOriginalExtension();
-            $imagePath = $request->file('image')->storeAs('images', $imageName, 'public');
-            $makanan->update(['gambarMakanan' => $imagePath]);
+            return redirect()->back()->with('success', 'Data makanan berhasil diperbarui!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error updating data: ' . $e->getMessage());
         }
-
-        return redirect()->back()->with('success', 'Data makanan berhasil diperbarui!');
-    } catch (\Exception $e) {
-        return redirect()->back()->with('error', 'Error updating data: ' . $e->getMessage());
     }
-}
 
     // Menghapus data makanan
     public function destroy($kodeMakanan)

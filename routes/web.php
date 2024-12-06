@@ -4,9 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PelangganController;
 
+// Route::get('/', function () {
+//     return view('admin.homeAdmin');
+// })->name('homeAdmin');
+
 Route::get('/', function () {
-    return view('admin.homeAdmin');
-});
+    return view('welcome');
+})->name('welcome');
 
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
@@ -47,9 +51,22 @@ Route::delete('/makanan/{kodeMakanan}', [MakananController::class, 'destroy'])->
 Route::resource('/makanans', MakananController::class); 
 
 
-Route::get('/admin/staff', function () {
-    return view('admin.staff'); // Buat view sesuai kebutuhan
-})->name('staff');
+// bagian halamanstaff dari pov admin
+use App\Http\Controllers\StaffController;
+// Route::get('/admin/staff', function () {
+//     return view('admin.staff');  
+// })->name('staff');
+Route::post('/staff/store', [StaffController::class, 'store'])->name('staff.store');
+Route::get('/admin/staff', [StaffController::class, 'index'])->name('staff'); 
+Route::put('/staff/{idStaff}', [StaffController::class, 'update'])->name('staff.update');
+Route::delete('/staff/{idStaff}', [StaffController::class, 'destroy'])->name('staff.destroy');   
+
+Route::resource('/staffs', StaffController::class); 
+Route::resource('staff', StaffController::class);
+
+
+
+
 
 
 Route::get('/admin/cutomer', function () {
@@ -63,4 +80,4 @@ Route::get('/admin/pesanan', function () {
 Route::get('/admin/laporan', function () {
     return view('admin.laporan'); // Buat view sesuai kebutuhan
 })->name('laporan');
-
+ 
