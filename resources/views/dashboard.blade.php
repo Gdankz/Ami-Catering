@@ -38,7 +38,7 @@
                 <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Lihat Layanan Kami</a>
 
                 <!-- Button hanya ditampilkan jika role pengguna adalah admin -->
-                @if(auth()->user()->role === 'admin')
+                @if(auth()->user()->is_admin === 1)
                     <h3 class="text-lg font-bold text-blue-500 mt-6">Admin Panel</h3>
                     <div class="space-y-2">
                         <a href="{{ route('homeAdmin') }}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Home Admin</a>
