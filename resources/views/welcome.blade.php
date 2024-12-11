@@ -44,13 +44,15 @@
             </div>
 
             <div class="ml-[340px] mt-[25px]">
+
                 <button
                     class="w-[150px] h-[25px] bg-white text-[#143109] border border-[#143109] transition duration-300 button1"></button>
                 <button
                     class="w-[150px] h-[25px] bg-[#143109] text-white border border-[#143109] transition duration-300 button2"></button>
                 <button
                     class="w-[150px] h-[25px] bg-[#143109] text-white border border-[#143109] transition duration-300 button3"></button>
-            </div>
+            
+                </div>
         </div>
     </section>
 
