@@ -2,10 +2,12 @@
 <html lang="en">
 
 <head>
+    <link rel="icon" href="{{ asset('images/Logo_image.png') }}" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ami Catering</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
         /* CSS untuk blur efek */
         .blurred {
@@ -107,7 +109,7 @@
                 </div>
 
                 <div class="flex items-center border-b-[2px] border-[#143109] pb-2">
-                    <label for="nama" class="w-1/3">Name</label>
+                    <label for="nama" class="w-1/3">Namea</label>
                     <input type="text" id="nama" name="nama" required
                         class="w-2/3 p-2 bg-transparent border-none outline-none">
                 </div>
@@ -142,7 +144,8 @@
     {{-- untuk edit data --}}
     <div id="myModalEdit" class="modal">
         <div class="modal-content">
-            <form id="staffFormEdit" action="/staff/{idStaff}" method="POST" enctype="multipart/form-data" class="space-y-4">
+            <form id="staffFormEdit" action="/staff/{idStaff}" method="POST" enctype="multipart/form-data"
+                class="space-y-4">
                 <input type="hidden" name="_method" value="PUT">
 
                 @csrf
@@ -192,10 +195,7 @@
             </form>
         </div>
     </div>
-
-
     <div class="border-4 border-[#143109] p-4 rounded-3xl mx-[50px] dynamic-box">
-
         <!-- Header Section: Search Bar dan Tombol Tambah Staff -->
         <div class="flex justify-between items-center mb-6">
             <!-- Placeholder untuk menjaga jarak dari kiri -->
@@ -300,129 +300,134 @@
         </div>
 
     </div>
-
     <script>
-        // Menambahkan blur pada seluruh halaman saat dimuat
+        // Tambahkan blur pada halaman saat dimuat
         window.addEventListener('load', () => {
             const body = document.getElementById('body');
             body.classList.add('blurred');
-            setTimeout(() => {
-                body.classList.remove('blurred'); // Menghapus blur setelah transisi selesai
-            }, 500); // Waktu transisi blur (0.5 detik)
+            setTimeout(() => body.classList.remove('blurred'), 500);
         });
 
-        // Event listener untuk menangani perubahan input pencarian
-        document.getElementById('searchInput').addEventListener('input', function() {
-            const query = this.value.toLowerCase();
-            const items = document.querySelectorAll('.staff-item');
-            const dividers = document.querySelectorAll('.divider'); // Seleksi semua garis pemisah
-            const notFound = document.getElementById('notFoundMessage');
-            let found = false;
+        // Fungsi global untuk menampilkan modal
+        function showModal(modal, form, previewId, data = null) {
+            form.reset();
+            const imagePreview = document.getElementById(previewId);
+            imagePreview.innerHTML = `<span class="text-gray-500 text-sm">Ellipse</span>`;
 
-            // Menyembunyikan semua staff-item & garis pemisah secara default
-            items.forEach((item) => item.style.display = 'none');
-            dividers.forEach((divider) => divider.classList.add('hidden'));
+            if (data) {
+                // Isi form dengan data
+                Object.keys(data).forEach(key => {
+                    const input = form.querySelector(`[name="${key}"]`);
+                    if (input) input.value = data[key];
+                });
 
-            // Memeriksa item yang sesuai dengan pencarian
-            items.forEach((item, index) => {
-                const name = item.dataset.name;
-                if (name.includes(query)) {
-                    item.style.display = 'flex'; // Tampilkan item
-                    found = true;
-
-                    // Jika ada divider berikutnya, tampilkan divider tersebut
-                    if (index < items.length - 1) {
-                        dividers[index].classList.remove('hidden');
-                    }
+                // Preview gambar jika ada
+                if (data.gambar) {
+                    imagePreview.innerHTML =
+                        `<img src="{{ asset('storage/') }}/${data.gambar}" class="w-full h-full object-cover rounded-full">`;
                 }
-            });
+            }
 
-            // Tampilkan atau sembunyikan pesan "Nama tidak ditemukan"
-            notFound.style.display = found ? 'none' : 'block';
-        });
-
-
-        var modal = document.getElementById("myModal");
-        var btn = document.getElementById("tambahstaffBTN");
-        var cancelBtn = document.getElementById("cancelBtn");
-        var imagePreview = document.getElementById("imagePreview");
-        var notificationOverlay = document.getElementById("notificationOverlay");
-
-
-
-
-        // Open Modal
-        btn.onclick = function() {
             modal.style.display = "block";
         }
 
-        // Close Modal on Outside Click
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                closeModal();
-            }
+        // Fungsi global untuk menutup modal
+        function closeModal(modal, form, previewId) {
+            form.reset(); // Mengosongkan semua input pada form
+            const imagePreview = document.getElementById(previewId);
+            imagePreview.innerHTML = `<span class="text-gray-500 text-sm">Image</span>`; // Mengosongkan gambar preview
+            modal.style.display = "none"; // Menutup modal
         }
 
-        // Load and Preview Chosen Image
-        var loadFile = function(event) {
-            var output = document.getElementById('imagePreview');
-            output.innerHTML = '<img src="' + URL.createObjectURL(event.target.files[0]) +
-                '" class="w-full h-full object-cover rounded-full">';
+        // Event listener untuk pencarian
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const items = document.querySelectorAll('.staff-item');
+            const dividers = document.querySelectorAll('.divider');
+            const notFound = document.getElementById('notFoundMessage');
+            let found = false;
+
+            items.forEach((item, index) => {
+                const name = item.dataset.name.toLowerCase();
+                const match = name.includes(query);
+                item.style.display = match ? 'flex' : 'none';
+                if (match) {
+                    found = true;
+                    if (index < items.length - 1) dividers[index].classList.remove('hidden');
+                } else {
+                    dividers[index]?.classList.add('hidden');
+                }
+            });
+
+            notFound.style.display = found ? 'none' : 'block';
+        });
+
+        // Inisialisasi elemen
+        const modal = document.getElementById('myModal');
+        const modalEdit = document.getElementById('myModalEdit');
+        const staffForm = document.getElementById('staffForm');
+        const staffFormEdit = document.getElementById('staffFormEdit');
+        const btnAdd = document.getElementById('tambahstaffBTN');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const cancelBtnEdit = document.getElementById('cancelBtnEdit');
+
+        // Event untuk tombol tambah staff
+        btnAdd.addEventListener('click', () => showModal(modal, staffForm, 'imagePreview'));
+
+        // Event untuk tombol batal
+        cancelBtn.addEventListener('click', () => closeModal(modal, staffForm, 'imagePreview'));
+        cancelBtnEdit.addEventListener('click', () => closeModal(modalEdit, staffFormEdit, 'imagePreviewEdit'));
+
+        // Event untuk tombol edit
+        document.querySelectorAll('.edit-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const data = {
+                    id: this.getAttribute('data-id'),
+                    nama: this.getAttribute('data-nama'),
+                    alamat: this.getAttribute('data-alamat'),
+                    noHPStaff: this.getAttribute('data-nohps'),
+                    nik: this.getAttribute('data-nik'),
+                    gambar: this.getAttribute('data-gambar')
+                };
+                showModal(modalEdit, staffFormEdit, 'imagePreviewEdit', data);
+            });
+        });
+
+        // Event untuk menutup modal saat klik di luar
+        [modal, modalEdit].forEach(modalElement => {
+            modalElement.addEventListener('click', event => {
+                if (event.target === modalElement) modalElement.style.display = "none";
+            });
+        });
+
+        // Fungsi preview gambar
+        window.loadFile = function(event) {
+            const output = document.getElementById('imagePreview');
+            output.innerHTML =
+                `<img src="${URL.createObjectURL(event.target.files[0])}" class="w-full h-full object-cover rounded-full">`;
         };
 
-        // Close Modal and Reset Form on Cancel
-        cancelBtn.onclick = function() {
-            closeModal();
-        };
-
-        // Close Modal Function
-        function closeModal() {
-            modal.style.display = "none";
-            document.getElementById("staffForm").reset();
-            imagePreview.innerHTML = '<span class="text-gray-500 text-sm">Ellipse</span>';
-        }
-
-        // Show Notification Function with Overlay
+        // Fungsi notifikasi
         function showNotification(type, message) {
-            var notification = document.querySelector('.notification.' + type);
+            const notification = document.querySelector(`.notification.${type}`);
             notification.innerText = message;
-            notificationOverlay.style.display = 'block';
             notification.style.display = 'block';
 
             setTimeout(() => {
                 notification.classList.add('fade-out');
-                notificationOverlay.style.display = 'none'; // Hide overlay when notification fades out
                 setTimeout(() => {
                     notification.style.display = 'none';
                     notification.classList.remove('fade-out');
-                }, 500); // Wait for the fade-out to complete
-            }, 500); // Display for 3 seconds
+                }, 500);
+            }, 3000);
         }
 
-        // Check if there is a notification to show
+        // Periksa jika ada notifikasi
         @if (session('success'))
             showNotification('success', '{{ session('success') }}');
         @elseif (session('error'))
             showNotification('error', '{{ session('error') }}');
         @endif
-
-
-        document.getElementById('cancelBtnEdit').addEventListener('click', function() {
-            // Ambil modal edit
-            const modalEdit = document.getElementById('myModalEdit');
-
-            // Sembunyikan modal edit
-            modalEdit.style.display = "none";
-
-            // Reset form modal edit
-            const staffFormEdit = document.getElementById('staffFormEdit');
-            staffFormEdit.reset();
-
-            // Reset preview gambar ke teks default
-            const imagePreview = document.getElementById('imagePreview');
-            imagePreview.innerHTML = `<span class="text-gray-500 text-sm">Ellipse</span>`;
-        });
-
         // JavaScript untuk menangani klik tombol Edit dan memuat data ke form modal
         document.querySelectorAll('.edit-btn').forEach(button => {
             button.addEventListener('click', function() {
@@ -461,28 +466,25 @@
                 const alamat = this.getAttribute('data-alamat');
                 const noHPStaff = this.getAttribute('data-nohps');
                 const nik = this.getAttribute('data-nik');
-                const gambar = this.getAttribute('data-gambar');
 
                 // Memuat data ke form modal edit
                 // const staffFormEdit = document.getElementById('staffFormEdit');
                 // staffFormEdit.action = `/staff/${id}`; // Mengubah action form menjadi update
 
                 document.getElementById('staffFormEdit').action = `/staff/${id}`;
-                
+
                 document.getElementById('namaEdit').value = nama;
                 document.getElementById('alamatEdit').value = alamat;
                 document.getElementById('noHPStaffEdit').value = noHPStaff;
                 document.getElementById('nikEdit').value = nik;
 
                 // Jika ada gambar, tampilkan di preview
+                // Reset gambar dan preview pada modal edit
+                document.getElementById('imageInputEdit').value =
+                ''; // Asumsi ID input gambar adalah 'imageInputEdit'
                 const imagePreview = document.getElementById('imagePreviewEdit');
-                if (gambar) {
-                    imagePreview.innerHTML =
-                        `<img src="{{ asset('storage/') }}/${gambar}" class="w-full h-full object-cover rounded-full">`;
-                } else {
-                    imagePreview.innerHTML =
-                        `<span class="text-gray-500 text-sm">Ellipse</span>`;
-                }
+                imagePreview.innerHTML =
+                `<span class="text-gray-500 text-sm">New Image</span>`; // Reset preview
 
                 // Tampilkan modal edit
                 const modalEdit = document.getElementById('myModalEdit');
@@ -490,6 +492,7 @@
             });
         });
     </script>
+
 
 </body>
 

@@ -9,7 +9,7 @@ class CreateStaffTable extends Migration
     public function up()
     {
         Schema::create('staff', function (Blueprint $table) {
-            $table->unsignedBigInteger('idStaff')->primary(); // Jadikan primary key
+            $table->string('idStaff')->primary(); // Ubah tipe menjadi string
             $table->string('nama');
             $table->string('alamat');
             $table->string('noHPStaff');
@@ -17,9 +17,7 @@ class CreateStaffTable extends Migration
             $table->string('gambarStaff')->nullable();
             $table->timestamps();
         });
-        
     }
-
 
     public function down()
     {

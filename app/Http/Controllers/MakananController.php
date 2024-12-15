@@ -20,8 +20,6 @@ class MakananController extends Controller
     // Menyimpan data makanan baru
     public function store(Request $request)
     {
-        // Debugging: Lihat data yang diterima
-        //  dd($request->all());
         // Validasi data
         $validatedData = $request->validate([
             'name' => 'required|string',
@@ -31,17 +29,16 @@ class MakananController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // dd($validatedData['availability']);
         try {
             // Generate kodeMakanan
-            $kodeMakanan = strtoupper(substr($validatedData['name'], 0, 1)) . now()->format('YmdHis');
+            $kodeMakanan = Makanan::generateKodeMakanan();
 
             // Simpan gambar jika ada
             $imagePath = null;
             if ($request->hasFile('image')) {
-                // Mengubah nama gambar sesuai nama makanan dan ekstensi file
-                $imageName = Str::slug($validatedData['name'], '_') . '.' . $request->image->getClientOriginalExtension();
- 
+                // Menggunakan kodeMakanan sebagai nama gambar
+                $imageName = $kodeMakanan . '.' . $request->image->getClientOriginalExtension();
+
                 // Simpan gambar di folder storage/app/public/images/Makanan
                 $imagePath = $request->file('image')->storeAs('images/Makanan', $imageName, 'public');
             }
@@ -66,6 +63,7 @@ class MakananController extends Controller
     }
 
 
+
     // Menampilkan form edit untuk mengubah data makanan
     public function edit($kodeMakanan)
     {
@@ -77,30 +75,22 @@ class MakananController extends Controller
     // Menyimpan perubahan data makanan
     public function update(Request $request, $kodeMakanan)
     {
-        // Debugging: Lihat data yang diterima
-        dd($request->all());
-        // Validasi data
-        $validatedData = $request->validate([
-            'name' => 'required|string',
-            'category' => 'required|string',
-            'price' => 'required|numeric',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'availability' => $validatedData['availability'] == '1', // Convert string '1' to boolean true
-        ]);
 
+// dd($request->all());
+        // Validasi data
+
+        $validatedData = $request->validate([
+            'nameEdit' => 'required|string',
+            'categoryEdit' => 'required|string',
+            'priceEdit' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'availability' => 'required|numeric',
+
+        ]);
+        // dd($validatedData);
 
         try {
             $makanan = Makanan::where('kodeMakanan', $kodeMakanan)->firstOrFail();
-
-            // Update data makanan
-            $makanan->update([
-                'namaMakanan' => $validatedData['name'],
-                'deskripsi' => $request->input('description', ''),
-                'jenisMakanan' => $validatedData['category'],
-                'harga' => $validatedData['price'],
-                'availability' => $validatedData['availability'], // Update availability sebagai boolean
-            ]);
-
             // Update gambar jika ada
             if ($request->hasFile('image')) {
                 // Hapus gambar lama jika ada
@@ -112,7 +102,22 @@ class MakananController extends Controller
                 $imageName = Str::slug($validatedData['name'], '_') . '.' . $request->image->getClientOriginalExtension();
                 $imagePath = $request->file('image')->storeAs('images', $imageName, 'public');
                 $makanan->update(['gambarMakanan' => $imagePath]);
+            } else {
+                return redirect()->back()->with('success', 'Data makanan berhasil diperbarui!');
             }
+            dd($validatedData);
+            // Update data makanan
+            $makanan->update([
+                'namaMakanan' => $validatedData['nameEdit'],
+                'jenisMakanan' => $validatedData['categoryEdit'],
+                'harga' => $validatedData['priceEdit'],
+                'availability' => $validatedData['availability'],
+                'gambarMakanan' => $imagePath, 
+                
+            ]);
+            // dd($makanan);
+             
+
 
             return redirect()->back()->with('success', 'Data makanan berhasil diperbarui!');
         } catch (\Exception $e) {

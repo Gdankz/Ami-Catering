@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use App\Models\Staff;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -13,7 +14,8 @@ class StaffController extends Controller
     {
         $staffs = Staff::latest()->paginate(10);
         return view('admin.staff', compact('staffs'));
-    }
+    } // Validasi data
+    // dd($request->all());
     public function store(Request $request)
     {
         // Validasi data
@@ -28,13 +30,13 @@ class StaffController extends Controller
         // dd($validatedData);
         try {
             // Gunakan NIK sebagai idStaff
-            $idStaff = $validatedData['nik'];
+            $idStaff = Staff::generateIdStaff();
 
             // Simpan gambar jika ada
             $imagePath = null;
             if ($request->hasFile('image')) {
-                // Ubah nama gambar berdasarkan nama staf
-                $imageName = Str::slug($validatedData['nama'], '_') . '.' . $request->image->getClientOriginalExtension();
+                // Ubah nama gambar berdasarkan id staf
+                $imageName = $idStaff . '.' . $request->image->getClientOriginalExtension();
 
                 // Simpan gambar di folder storage/app/public/images/Staff
                 $imagePath = $request->file('image')->storeAs('images/Staff', $imageName, 'public');
@@ -60,37 +62,43 @@ class StaffController extends Controller
     public function update(Request $request, $idStaff)
     {
         // Validasi data
+        
         $validatedData = $request->validate([
-            'nama' => 'required|string',
-            'alamat' => 'required|string',
-            'noHPStaff' => 'required|numeric',
-            'nik' => 'required|numeric',
+            'namaEdit' => 'required|string',
+            'alamatEdit' => 'required|string',
+            'noHPStaffEdit' => 'required|numeric',
+            'nikEdit' => 'required|numeric',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
-    
+
         try {
             // Cari data staff berdasarkan idStaff
             $staff = Staff::where('idStaff', $idStaff)->firstOrFail();
-    
-            // Simpan gambar jika ada perubahan
-            $imagePath = $staff->gambarStaff; // Gunakan gambar lama jika tidak ada gambar baru
+
+            // Cek apakah ada gambar baru yang diunggah
             if ($request->hasFile('image')) {
-                // Ubah nama gambar berdasarkan nama staf
-                $imageName = Str::slug($validatedData['nama'], '_') . '.' . $request->image->getClientOriginalExtension();
-    
-                // Simpan gambar di folder storage/app/public/images/Staff
+                // Hapus gambar lama jika ada
+                if ($staff->gambarStaff && Storage::disk('public')->exists($staff->gambarStaff)) {
+                    Storage::disk('public')->delete($staff->gambarStaff);
+                }
+
+                // Simpan gambar baru
+                $imageName = Str::slug($validatedData['namaEdit'], '_') . '.' . $request->image->getClientOriginalExtension();
                 $imagePath = $request->file('image')->storeAs('images/Staff', $imageName, 'public');
+            } else {
+                // Pertahankan gambar lama jika tidak ada gambar baru
+                $imagePath = $staff->gambarStaff;
             }
-    
+
             // Update data staff di database
             $staff->update([
-                'nama' => $validatedData['nama'],
-                'alamat' => $validatedData['alamat'],
-                'nik' => $validatedData['nik'],
+                'nama' => $validatedData['namaEdit'],
+                'alamat' => $validatedData['alamatEdit'],
+                'noHPStaff' => $validatedData['noHPStaffEdit'],
+                'nik' => $validatedData['nikEdit'],
                 'gambarStaff' => $imagePath,
-                'noHPStaff' => $validatedData['noHPStaff'],
             ]);
-    
+
             // Redirect dengan pesan sukses
             return redirect()->route('staff')->with('success', 'Data successfully updated!');
         } catch (\Exception $e) {
@@ -98,7 +106,8 @@ class StaffController extends Controller
             return redirect()->back()->with('error', 'Error updating data: ' . $e->getMessage());
         }
     }
-    
+
+
     public function destroy($idStaff)
     {
         $staff = Staff::find($idStaff);

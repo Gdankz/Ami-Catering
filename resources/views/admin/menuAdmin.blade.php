@@ -98,6 +98,7 @@
             filter: blur(5px);
             transition: filter 0.5s ease-in-out;
         }
+
         .page-transition {
             transition: filter 0.5s ease-in-out;
         }
@@ -202,6 +203,73 @@
             </div>
         </div>
 
+
+
+        {{-- --------------------------- --}}
+        <div id="myModalEdit" class="modal">
+            <div class="modal-content">
+
+                <form id="foodFormEdit" action="/makanan/{kodeMakanan}" method="POST" enctype="multipart/form-data"
+                    class="space-y-4">
+                    <input type="hidden" name="_method" value="PUT">
+                    @csrf
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div id="imagePreviewEdit"
+                            class="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                            <span class="text-gray-500 text-sm">Ellipse</span>
+                        </div>
+                        <input type="file" id="imageInputEdit" name="image" accept="image/*" class="hidden"
+                            onchange="loadFile(event)">
+                        <button type="button" onclick="document.getElementById('imageInputEdit').click()"
+                            class="px-4 py-2 bg-[#FFFFFF] text-[#143109] rounded-lg border-2 border-[#143109]">Choose
+                            Photo</button>
+                    </div>
+
+                    <div class="flex items-center border-b-[2px] border-[#143109] pb-2">
+                        <label for="categoryEdit" class="w-1/3">Category</label>
+                        <input type="text" id="categoryEdit" name="category" required
+                            class="w-2/3 p-2 bg-transparent border-none outline-none">
+                    </div>
+
+                    <div class="flex items-center border-b-[2px] border-[#143109] pb-2">
+                        <label for="nameEdit" class="w-1/3">Name</label>
+                        <input type="text" id="nameEdit" name="name" required
+                            class="w-2/3 p-2 bg-transparent border-none outline-none">
+                    </div>
+
+                    <div class="flex items-center border-b-[2px] border-[#143109] pb-2">
+                        <label for="priceEdit" class="w-1/3">Price</label>
+                        <input type="number" id="priceEdit" name="price" required
+                            class="w-2/3 p-2 bg-transparent border-none outline-none">
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="block font-semibold mb-2">Availability</label>
+                        <div class="flex items-center space-x-4">
+                            <label class="flex items-center space-x-2">
+                                <input type="radio" name="availability" value="1" 
+                                    {{ isset($makanan) && $makanan->availability == 1 ? 'checked' : '' }}>
+                                <span>Available</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="radio" name="availability" value="0" 
+                                    {{ isset($makanan) && $makanan->availability == 0 ? 'checked' : '' }}>
+                                <span>Unavailable</span>
+                            </label>
+                            
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end space-x-2 mt-4">
+                        <button type="button" id="cancelBtn"
+                            class="px-4 py-2 bg-[#FFFFFF] text-[#143109] rounded-lg border-2 border-[#143109]">Cancel</button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-[#143109] text-[#FFFFFF] rounded-lg border-2 border-[#143109]">Save</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
         <!-- Daftar Makanan -->
         @foreach ($makanans as $makanan)
             <div class="w-[30%] h-[80vh] max-w-[70%]   rounded-lg   flex flex-col">
@@ -220,19 +288,19 @@
 
 
                             <!-- Tombol Edit -->
-                            <a href="javascript:void(0);"
+                            <button type="button" class="text-blue-500"
                                 onclick="openEditModal(
-                '{{ $makanan->kodeMakanan }}',
-                '{{ $makanan->namaMakanan }}',
-                '{{ $makanan->jenisMakanan }}',
-                '{{ $makanan->harga }}',
-                '{{ $makanan->category ?? '' }}',
-                '{{ $makanan->availability ?? '' }}',
-                '{{ $makanan->gambarMakanan ? asset('storage/' . $makanan->gambarMakanan) : '' }}'
-                )"
-                                class="text-blue-500">
+        '{{ $makanan->kodeMakanan }}',
+        '{{ $makanan->namaMakanan }}',
+        '{{ $makanan->jenisMakanan }}',
+        '{{ $makanan->harga }}',
+        '{{ $makanan->availability }}',  
+        '{{ $makanan->gambarMakanan ? asset('storage/' . $makanan->gambarMakanan) : '' }}'
+    )">
                                 <img src="{{ asset('..\images\edit.png') }}" alt="Edit" class="w-6 h-6">
-                            </a>
+                            </button>
+
+
                             <!-- Tombol Hapus -->
                             <form action="{{ route('makanan.destroy', $makanan->kodeMakanan) }}" method="POST">
                                 @csrf
@@ -323,29 +391,39 @@
         @endif
 
         // Fungsi untuk membuka modal dan menampilkan data
-        function openEditModal(kodeMakanan, namaMakanan, jenisMakanan, harga, kategori, availability, gambar) {
-            var modal = document.getElementById("myModal");
-            modal.style.display = "block";
+       // Fungsi untuk membuka modal dan menampilkan data
+// Fungsi untuk membuka modal dan menampilkan data
+function openEditModal(kodeMakanan, namaMakanan, category, harga, availability, gambar) {
+    var modal = document.getElementById("myModalEdit");
+    modal.style.display = "block";
 
-            // Update action form untuk update data makanan
-            document.getElementById("foodForm").action = `/makanans/${kodeMakanan}`;
-            document.getElementById("foodForm").querySelector('input[name="_method"]').value = "PUT";
+    // Update action form untuk update data makanan
+    var foodForm = document.getElementById("foodFormEdit");
+    foodForm.action = `/makanan/${kodeMakanan}`;
+    foodForm.querySelector('input[name="_method"]').value = "PUT";
 
-            // Isi form dengan data dari parameter
-            document.getElementById("category").value = kategori || ''; // Pastikan null atau undefined tidak mengganggu
-            document.getElementById("name").value = namaMakanan || '';
-            document.getElementById("price").value = harga || '';
+    // Isi form dengan data dari parameter
+    document.getElementById("categoryEdit").value = category || ''; 
+    document.getElementById("nameEdit").value = namaMakanan || ''; 
+    document.getElementById("priceEdit").value = harga || ''; 
 
-            // Pastikan availability terisi dengan benar
-            var availableRadio = document.querySelector(`input[name="availability"][value="${availability}"]`);
-            if (availableRadio) {
-                availableRadio.checked = true;
-            }
+    // Set nilai pada radio button availability
+    if (availability !== undefined && (availability == 1 || availability == 0)) {
+        document.querySelector(`input[name="availability"][value="${availability}"]`).checked = true;
+    } else {
+        console.warn("Nilai availability tidak valid atau tidak ditemukan:", availability);
+    }
 
-            // Update preview gambar
-            var imagePreview = document.getElementById("imagePreview");
-            imagePreview.innerHTML = gambar ?
-                `<img src="${gambar}" class="w-full h-full object-cover rounded-full" />` :
-                '<span class="text-gray-500 text-sm">Ellipse</span>';
-        }
+    // Update preview gambar
+    var imagePreview = document.getElementById("imagePreviewEdit");
+    imagePreview.innerHTML = gambar
+        ? `<img src="${gambar}" class="w-full h-full object-cover rounded-full" />`
+        : '<span class="text-gray-500 text-sm">Ellipse</span>';
+}
+
+
+
     </script>
+</body>
+
+</html>
