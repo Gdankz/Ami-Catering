@@ -33,6 +33,10 @@ Route::middleware(['auth'])->group(function () {
 // Tambahkan route untuk logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::get('/menu', function () {
+    return view('menu');
+})->name('menu');
+
 
 // Definisikan rute homeAdmin
 Route::get('/admin/home', function () {
