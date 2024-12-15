@@ -147,7 +147,7 @@ class MakananController extends Controller
     public function ShowMakanan()
     {
         // Mengambil semua data makanan
-        $makanans = Makanan::all();
+        $makanans = Makanan::take(3)->get();
 
         // Mengirim data ke view
         return view('menu', compact('makanans'));
