@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\PesanController;
 
 // Route::get('/', function () {
 //     return view('admin.homeAdmin');
@@ -18,14 +19,23 @@ Route::get('register', [AuthController::class, 'showRegisterForm'])->name('regis
 Route::post('register', [AuthController::class, 'register']);
 //Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
-Route::get('/dashboard', [PelangganController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', [PelangganController::class, 'index'])->name('auth');
 
-Route::middleware(['auth'])->group(function () {
+
+Route::middleware('auth:pelanggan')->group(function () {
+    Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
     Route::get('/edit-alamat', [AuthController::class, 'editAlamat'])->name('edit-alamat');
     Route::post('/update-alamat', [AuthController::class, 'updateAlamat'])->name('update-alamat');
     Route::get('/edit-nohp', [AuthController::class, 'editNoHp'])->name('edit-nohp');
     Route::post('/update-nohp', [AuthController::class, 'updateNoHp'])->name('update-nohp');
 });
+
+//Route::middleware(['auth'])->group(function () {
+//    Route::get('/edit-alamat', [AuthController::class, 'editAlamat'])->name('edit-alamat');
+//    Route::post('/update-alamat', [AuthController::class, 'updateAlamat'])->name('update-alamat');
+//    Route::get('/edit-nohp', [AuthController::class, 'editNoHp'])->name('edit-nohp');
+//    Route::post('/update-nohp', [AuthController::class, 'updateNoHp'])->name('update-nohp');
+//});
 
 // Tambahkan route untuk logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -64,9 +74,9 @@ Route::delete('/staff/{idStaff}', [StaffController::class, 'destroy'])->name('st
 Route::resource('/staffs', StaffController::class);
 Route::resource('staff', StaffController::class);
 
-
-
-
+Route::get('/menu', function () {
+    return view('menu');
+})->name('menu');
 
 
 Route::get('/admin/cutomer', function () {
@@ -80,3 +90,5 @@ Route::get('/admin/pesanan', function () {
 Route::get('/admin/laporan', function () {
     return view('admin.laporan'); // Buat view sesuai kebutuhan
 })->name('laporan');
+
+Route::get('/menu', [MakananController::class, 'ShowMakanan'])->name('menu');

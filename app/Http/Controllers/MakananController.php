@@ -112,11 +112,11 @@ class MakananController extends Controller
                 'jenisMakanan' => $validatedData['categoryEdit'],
                 'harga' => $validatedData['priceEdit'],
                 'availability' => $validatedData['availability'],
-                'gambarMakanan' => $imagePath, 
-                
+                'gambarMakanan' => $imagePath,
+
             ]);
             // dd($makanan);
-             
+
 
 
             return redirect()->back()->with('success', 'Data makanan berhasil diperbarui!');
@@ -143,5 +143,13 @@ class MakananController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error deleting data: ' . $e->getMessage());
         }
+    }
+    public function ShowMakanan()
+    {
+        // Mengambil semua data makanan
+        $makanans = Makanan::all();
+
+        // Mengirim data ke view
+        return view('menu', compact('makanans'));
     }
 }

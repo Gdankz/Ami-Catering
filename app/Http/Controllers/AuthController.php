@@ -123,6 +123,14 @@ class AuthController extends Controller
         return redirect()->route('dashboard')->with('success', 'No HP berhasil diperbarui.');
     }
 
+    public function dashboard()
+    {
+        $user = Auth::user(); // Mengambil data user yang sedang login
+
+        return view('dashboard', compact('user')); // Mengirim data user ke view dashboard
+    }
+
+
 //    // Menampilkan halaman edit alamat
 //    public function editAlamat()
 //    {
