@@ -14,7 +14,8 @@ class CreateMakananTable extends Migration
             $table->string('deskripsi', 500)->nullable();
             $table->string('jenisMakanan', 20);
             $table->integer('harga');
-            $table->string('gambarMakanan')->nullable(); // Menambahkan kolom gambarMakanan
+            $table->string('gambarMakanan')->nullable(); // Menambahkan kolom gambarMakanan 
+            $table->boolean('availability')->default(true);
             $table->timestamps();
         });
     }
