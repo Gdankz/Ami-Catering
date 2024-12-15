@@ -22,7 +22,6 @@
 <!-- Memanggil navbar -->
 @include('partials.navBar')
 
-
 <!-- Konten utama -->
 <section class="text-center my-8">
     <div>
@@ -33,7 +32,7 @@
             <div
                 class="w-[1000px] h-[1000px] bg-[#143109] rounded-full absolute left-0 top-8 ml-[-400px] overflow-hidden">
             </div>
-            <img id="bowlImage" src="\images\salad.png" alt="Bowl Image"
+            <img id="bowlImage" src="/images/salad.png" alt="Bowl Image"
                  class="w-[495px] h-[495px] absolute z-10 object-cover ml-[-900px] top-[-120px]">
         </div>
 
@@ -44,19 +43,17 @@
         </div>
 
         <div class="ml-[340px] mt-[25px]">
-
             <button
-                class="w-[150px] h-[25px] bg-white text-[#143109] border border-[#143109] transition duration-300 button1"></button>
+                class="button1 w-[150px] h-[25px] bg-white text-[#143109] border border-[#143109] transition duration-300"></button>
             <button
-                class="w-[150px] h-[25px] bg-[#143109] text-white border border-[#143109] transition duration-300 button2"></button>
+                class="button2 w-[150px] h-[25px] bg-[#143109] text-white border border-[#143109] transition duration-300"></button>
             <button
-                class="w-[150px] h-[25px] bg-[#143109] text-white border border-[#143109] transition duration-300 button3"></button>
-
+                class="button3 w-[150px] h-[25px] bg-[#143109] text-white border border-[#143109] transition duration-300"></button>
         </div>
     </div>
 </section>
 
-<<!-- Div About -->
+<!-- Div About -->
 <section id="about" class="my-12 flex items-center justify-between p-8 bg-white mt-56 relative z-10 h-[690px]">
     <div class="flex-shrink-0 w-1/3">
         <img src="images/logo_about.png" alt="Ami Catering" class="w-full h-auto max-w-[400px]">
@@ -89,69 +86,62 @@
     </div>
 </section>
 
-
-
-
 <script>
-    // Menggunakan tombol About untuk scroll ke bagian about
-    document.getElementById('aboutButton').addEventListener('click', function () {
-        document.getElementById('about').scrollIntoView({
-            behavior: 'smooth'
+    // Menangani tombol klik dengan DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', () => {
+        const bowlImage = document.getElementById('bowlImage');
+        const contentDiv = document.getElementById('content');
+
+        function rotateImage(degrees) {
+            bowlImage.style.transition = 'transform 0.9s';
+            bowlImage.style.transform = `rotate(${degrees}deg)`;
+        }
+
+        function resetButtonStyles() {
+            const buttons = [document.querySelector('.button1'), document.querySelector('.button2'), document.querySelector('.button3')];
+            buttons.forEach(button => {
+                button.classList.remove('bg-white', 'text-[#143109]');
+                button.classList.add('bg-[#143109]', 'text-white');
+            });
+        }
+
+        function updateContent(newContent) {
+            contentDiv.classList.add('fade-out');
+            setTimeout(() => {
+                contentDiv.innerHTML = newContent;
+                contentDiv.classList.remove('fade-out');
+            }, 480);
+        }
+
+        document.querySelector('.button1').addEventListener('click', function () {
+            rotateImage(60);
+            resetButtonStyles();
+            this.classList.add('bg-white', 'text-[#143109]');
+            updateContent(`
+                    <h1 class="text-2xl font-bold text-left text-[#143109]">MODERN TRADITIONAL FLAVOR</h1>
+                    <h2 class="text-lg text-left text-[#143109]">We combine classic recipes with modern servings and use local ingredients with its culinary techniques.</h2>
+                `);
         });
-    });
 
-    const bowlImage = document.getElementById('bowlImage');
-    const contentDiv = document.getElementById('content');
-
-    function rotateImage(degrees) {
-        bowlImage.style.transition = 'transform 0.9s';
-        bowlImage.style.transform = `rotate(${degrees}deg)`;
-    }
-
-    function resetButtonStyles() {
-        const buttons = [document.querySelector('.button1'), document.querySelector('.button2'), document.querySelector('.button3')];
-        buttons.forEach(button => {
-            button.classList.remove('bg-white', 'text-[#143109]');
-            button.classList.add('bg-[#143109]', 'text-white');
+        document.querySelector('.button2').addEventListener('click', function () {
+            rotateImage(45);
+            resetButtonStyles();
+            this.classList.add('bg-white', 'text-[#143109]');
+            updateContent(`
+                    <h1 class="text-2xl font-bold text-left text-[#143109]">HEALTHY AND ECO-FRIENDLY FOOD</h1>
+                    <h2 class="text-lg text-left text-[#143109]">We offer "Healthy Meal Plans" that are low in fat, sugar, and high in fiber. Our "Eco-Friendly Catering" uses organic, local, and sustainable ingredients</h2>
+                `);
         });
-    }
 
-    function updateContent(newContent) {
-        contentDiv.classList.add('fade-out');
-        setTimeout(() => {
-            contentDiv.innerHTML = newContent;
-            contentDiv.classList.remove('fade-out');
-        }, 480);
-    }
-
-    document.querySelector('.button1').addEventListener('click', function () {
-        rotateImage(60);
-        resetButtonStyles();
-        this.classList.add('bg-white', 'text-[#143109]');
-        updateContent(`
-                <h1 class="text-2xl font-bold text-left text-[#143109]">MODERN TRADITIONAL FLAVOR</h1>
-                <h2 class="text-lg text-left text-[#143109]">We combine classic recipes with modern servings and use local ingredients with its culinary techniques.</h2>
-            `);
-    });
-
-    document.querySelector('.button2').addEventListener('click', function () {
-        rotateImage(45);
-        resetButtonStyles();
-        this.classList.add('bg-white', 'text-[#143109]');
-        updateContent(`
-                <h1 class="text-2xl font-bold text-left text-[#143109]">HEALTHY AND ECO-FRIENDLY FOOD</h1>
-                <h2 class="text-lg text-left text-[#143109]">We offer "Healthy Meal Plans" that are low in fat, sugar, and high in fiber. Our "Eco-Friendly Catering" uses organic, local, and sustainable ingredients</h2>
-            `);
-    });
-
-    document.querySelector('.button3').addEventListener('click', function () {
-        rotateImage(0);
-        resetButtonStyles();
-        this.classList.add('bg-white', 'text-[#143109]');
-        updateContent(`
-                <h1 class="text-2xl font-bold text-left text-[#143109]">VEGAN AND VEGETARIAN</h1>
-                <h2 class="text-lg text-left text-[#143109]">We also provide "Vegan or Vegetarian Meal Packages" including vegan dishes and variations of classic dishes without meat.</h2>
-            `);
+        document.querySelector('.button3').addEventListener('click', function () {
+            rotateImage(0);
+            resetButtonStyles();
+            this.classList.add('bg-white', 'text-[#143109]');
+            updateContent(`
+                    <h1 class="text-2xl font-bold text-left text-[#143109]">VEGAN AND VEGETARIAN</h1>
+                    <h2 class="text-lg text-left text-[#143109]">We also provide "Vegan or Vegetarian Meal Packages" including vegan dishes and variations of classic dishes without meat.</h2>
+                `);
+        });
     });
 </script>
 </body>

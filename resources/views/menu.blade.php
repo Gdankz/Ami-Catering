@@ -20,7 +20,14 @@
 
 <body>
 <!-- Memanggil navbar -->
-@include('partials.navBar')
+<!-- Cek apakah user sudah login -->
+@if (Auth::check())
+    <!-- Jika sudah login -->
+    @include('partials.navBarAfterLogin')
+@else
+    <!-- Jika belum login -->
+    @include('partials.navBar')
+@endif
 
 <div class="flex justify-end ml-4">
     <p class="font-bold text-6xl">TOP PICKS</p>

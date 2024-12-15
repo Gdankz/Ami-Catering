@@ -28,6 +28,7 @@ Route::middleware('auth:pelanggan')->group(function () {
     Route::post('/update-alamat', [AuthController::class, 'updateAlamat'])->name('update-alamat');
     Route::get('/edit-nohp', [AuthController::class, 'editNoHp'])->name('edit-nohp');
     Route::post('/update-nohp', [AuthController::class, 'updateNoHp'])->name('update-nohp');
+    Route::get('/menu', [MakananController::class, 'ShowMakanan'])->name('menu');
 });
 
 //Route::middleware(['auth'])->group(function () {
@@ -92,3 +93,4 @@ Route::get('/admin/laporan', function () {
 })->name('laporan');
 
 Route::get('/menu', [MakananController::class, 'ShowMakanan'])->name('menu');
+

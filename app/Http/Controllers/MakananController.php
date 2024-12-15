@@ -152,4 +152,11 @@ class MakananController extends Controller
         // Mengirim data ke view
         return view('menu', compact('makanans'));
     }
+
+    public function showMakananAfterLogin()
+    {
+        // Ambil data makanan dari database
+        $makanans = Makanan::all();  // Atau sesuai kebutuhan, misalnya dengan kondisi tertentu
+        return view('menu.index', compact('makanans'));
+    }
 }
