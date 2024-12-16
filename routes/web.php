@@ -94,3 +94,9 @@ Route::get('/admin/laporan', function () {
 
 Route::get('/menu', [MakananController::class, 'ShowMakanan'])->name('menu');
 
+Route::middleware('auth:pelanggan')->get('/home-menu', function () {
+    return view('homeMenu');
+})->name('homeMenu');
+
+Route::get('/home-menu', [MakananController::class, 'ShowAllMakanan'])->name('homeMenu');
+

@@ -11,7 +11,7 @@
 <div class="sidebar fixed top-0 left-0 w-64 h-full bg-blue-600 text-white p-6">
     <h1 class="text-xl font-bold mb-6">Dashboard Menu</h1>
     <ul>
-        <li class="mb-4"><a href="{{ route('profil') }}" class="hover:underline">Profil Saya</a></li>
+        <li class="mb-4"><a href="{{ route('profile') }}" class="hover:underline">Profil Saya</a></li>
         <li class="mb-4"><a href="#" class="hover:underline">Pesanan Saya</a></li>
         <li class="mb-4"><a href="#" class="hover:underline">Riwayat Transaksi</a></li>
         <li class="mb-4">

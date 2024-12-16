@@ -19,7 +19,7 @@
 </head>
 
 <body>
-@include('partials.navBar')
+@include('partials.navBarHome')
 
 
 <div class="flex justify-end ml-4">

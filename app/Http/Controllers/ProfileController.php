@@ -21,6 +21,12 @@ class ProfileController extends Controller
         ]);
     }
 
+    public function show()
+    {
+        $pelanggan = Auth::user();
+        return view('profile', compact('pelanggan'));
+    }
+
     /**
      * Update the user's profile information.
      */

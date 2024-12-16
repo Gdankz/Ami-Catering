@@ -23,7 +23,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::guard('pelanggan')->attempt($credentials)) {
-            return redirect()->route('menu');
+            return redirect()->route('homeMenu');
         }
 
         return back()->withErrors(['email' => 'Email atau password salah.'])->withInput();
