@@ -111,9 +111,10 @@ Route::post('/checkout', [PesanController::class, 'checkout'])->middleware('auth
 
 
 //Route::get('/menu', [CartController::class, 'showMenu'])->name('homeMenu');
-Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');
-Route::get('/checkout', [CartController::class, 'showCheckout'])->name('checkout');
-Route::post('/checkout', [CartController::class, 'processCheckout'])->name('processCheckout');
-
+Route::middleware('auth:pelanggan')->group(function () {
+    Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');
+    Route::get('/checkout', [CartController::class, 'showCheckout'])->name('checkout');
+    Route::post('/checkout', [CartController::class, 'processCheckout'])->name('processCheckout');
+});
 
 

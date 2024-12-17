@@ -97,7 +97,8 @@ class CartController extends Controller
 
         try {
             // Pastikan pengguna sudah login, jika tidak fallback ke ID pelanggan default
-            $idPelanggan = auth()->check() ? auth()->user()->idPelanggan : 1; // ID pelanggan default adalah 1 jika tidak login
+            $idPelanggan = auth()->check() ? auth()->user()->idPelanggan : null;
+
 
             // Iterasi melalui isi keranjang
             foreach ($cart as $item) {
