@@ -18,135 +18,94 @@
     </style>
 </head>
 
-<body>
+<body class="bg-gray-50">
 @include('partials.navBarHome')
 
-<!-- Judul Section -->
-<div class="flex justify-end ml-4">
+<!-- Header -->
+<div class="flex justify-end mt-4 bg-gray-50">
     <p class="font-bold text-6xl">TOP PICKS</p>
 </div>
 
-<!-- Gambar dan Daftar Makanan -->
-<div class="flex justify-center items-center w-full h-screen bg-gray-100 -mt-40">
-    <div class="flex space-x-8">
-        <!-- Looping untuk menampilkan gambar dan harga makanan -->
-        @foreach ($makanans as $makanan)
-            <div class="flex flex-col items-center w-80 cursor-pointer"
-                 onclick="openModal('{{ $makanan->namaMakanan }}', '{{ $makanan->deskripsi }}', '{{ $makanan->harga }}', '{{ $makanan->kodeMakanan }}')">
-                <!-- Gambar Makanan -->
-                <img class="rounded-full w-64 h-64 object-cover" src="{{ asset('storage/' . $makanan->gambarMakanan) }}"
-                     alt="{{ $makanan->namaMakanan }}">
-                <!-- Nama dan Harga -->
-                <p class="text-xl font-bold mt-4">{{ $makanan->namaMakanan }}</p>
-                <p class="text-lg text-gray-700">Rp {{ number_format($makanan->harga, 0, ',', '.') }}</p>
+<!-- Gallery Section -->
+<div class="flex justify-around items-center w-full h-screen bg-gray-100 -mt-20">
+    <div class="w-[400px] h-[400px]">
+        <img class="rounded-full w-full h-full object-cover" src="{{ asset('images/fancy.png') }}" alt="Sehat">
+    </div>
+
+    <div class="w-[700px] h-[700px] -mt-20">
+        <img class="rounded-full w-full h-full object-cover" src="{{ asset('images/sehat.png') }}" alt="Sehat">
+    </div>
+
+    <div class="w-[400px] h-[400px]">
+        <img class="rounded-full w-full h-full object-cover" src="{{ asset('images/kuah.png') }}" alt="Sehat">
+    </div>
+</div>
+
+<!-- Food List Section -->
+<div class="container mx-auto p-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        @foreach ($makanans as $item)
+            <div class="text-center p-4 bg-white rounded-lg shadow-md">
+                <!-- Food Image -->
+                <img src="{{ asset('storage/' . $item->gambarMakanan) }}"
+                     alt="{{ $item->namaMakanan }}"
+                     class="w-[150px] h-[150px] mx-auto rounded-full object-cover">
+
+                <!-- Food Name -->
+                <p class="text-xl font-bold mt-4">{{ $item->namaMakanan }}</p>
+
+                <!-- Meal Option Dropdown -->
+                <select class="mt-2 border border-gray-300 rounded px-2 py-1 text-center">
+                    <option value="morning">-</option>
+                    <option value="morning">Breakfast</option>
+                    <option value="evening">Lunch</option>
+                    <option value="evening">Dinner</option>
+                    <option value="evening">Breakfast & Lunch</option>
+                    <option value="evening">Breakfast & Dinner</option>
+                    <option value="evening">Lunch & Dinner</option>
+                </select>
+
+                <!-- Price and Quantity -->
+                <div class="flex justify-between items-center mt-4">
+                    <p class="text-gray-500">Rp{{ number_format($item->harga, 0, ',', '.') }}</p>
+
+                    <div class="flex items-center border border-gray-200 rounded-md overflow-hidden shadow-sm">
+                        <button
+                            class="decrease w-8 h-8 flex items-center justify-center bg-gray-100 text-green-600 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-300">-</button>
+                        <input
+                            class="numberInput w-12 text-center text-lg focus:outline-none focus:ring-2 focus:ring-green-300 bg-transparent border-none"
+                            type="number" value="0" min="0">
+                        <button
+                            class="increase w-8 h-8 flex items-center justify-center bg-gray-100 text-green-600 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-300">+</button>
+                    </div>
+                </div>
             </div>
         @endforeach
     </div>
 </div>
 
-<!-- Modal (Pop-up) -->
-<div id="menuModal"
-     class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden justify-center items-start pt-32">
-    <div class="bg-white p-6 rounded-lg w-1/3 relative">
-        <h2 id="modalTitle" class="text-2xl font-bold"></h2>
-        <p id="modalDescription" class="mt-2 text-gray-700"></p>
-        <p id="modalPrice" class="mt-2 text-lg text-gray-700"></p>
-
-        <!-- Error Message -->
-        <p id="errorMessage" class="hidden text-red-500 mt-2"></p>
-
-        <!-- Input Jumlah -->
-        <div class="flex items-center mt-4">
-            <input id="quantity"
-                   type="number"
-                   min="1"
-                   value="1"
-                   class="border border-gray-300 p-2 rounded-lg w-24 mr-4">
-            <button onclick="checkout()"
-                    class="bg-blue-500 text-white p-2 rounded-lg">
-                Checkout
-            </button>
-        </div>
-
-        <!-- Tombol Close -->
-        <button onclick="closeModal()"
-                class="absolute top-2 right-2 text-red-500 font-bold">
-            ×
-        </button>
-    </div>
-</div>
-
 <script>
-    // Fungsi untuk membuka modal
-    function openModal(name, description, price, kodeMakanan) {
-        const modal = document.getElementById('menuModal');
-        document.getElementById('modalTitle').innerText = name;
-        document.getElementById('modalDescription').innerText = description;
-        document.getElementById('modalPrice').innerText = `Rp ${price}`;
-        modal.setAttribute('data-kodeMakanan', kodeMakanan);
+    document.addEventListener('DOMContentLoaded', function () {
+        const decreaseButtons = document.querySelectorAll('.decrease');
+        const increaseButtons = document.querySelectorAll('.increase');
+        const numberInputs = document.querySelectorAll('.numberInput');
 
-        // Reset input dan pesan error
-        document.getElementById('quantity').value = 1;
-        document.getElementById('errorMessage').classList.add('hidden');
-
-        // Tampilkan modal
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-    }
-
-    // Fungsi untuk menutup modal
-    function closeModal() {
-        const modal = document.getElementById('menuModal');
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    }
-
-    // Fungsi untuk memproses checkout
-    function checkout() {
-        const quantity = parseInt(document.getElementById('quantity').value);
-        const price = parseInt(document.getElementById('modalPrice').innerText.replace('Rp ', '').replace('.', ''));
-        const kodeMakanan = document.getElementById('menuModal').getAttribute('data-kodeMakanan');
-        const idPelanggan = 1; // Sesuaikan dengan data login pelanggan (contoh: dari session)
-
-        // Validasi input jumlah
-        if (isNaN(quantity) || quantity <= 0) {
-            const errorMessage = document.getElementById('errorMessage');
-            errorMessage.innerText = 'Jumlah pesanan harus lebih dari 0.';
-            errorMessage.classList.remove('hidden');
-            return;
-        }
-
-        // Kirim data menggunakan fetch
-        fetch('/checkout', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({
-                idPelanggan: idPelanggan,
-                kodeMakanan: kodeMakanan,
-                quantity: quantity,
-                hargaMakanan: price
-            })
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Pesanan berhasil ditambahkan!');
-                    closeModal();
-                    window.location.href = '/checkout'; // Redirect ke halaman checkout
-                } else {
-                    alert(data.message || 'Terjadi kesalahan, coba lagi.');
+        decreaseButtons.forEach((decreaseButton, index) => {
+            decreaseButton.addEventListener('click', function () {
+                let currentValue = parseInt(numberInputs[index].value);
+                if (currentValue > 0) {
+                    numberInputs[index].value = currentValue - 1;
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Gagal memproses pesanan. Silakan coba lagi.');
             });
-    }
+        });
+
+        increaseButtons.forEach((increaseButton, index) => {
+            increaseButton.addEventListener('click', function () {
+                let currentValue = parseInt(numberInputs[index].value);
+                numberInputs[index].value = currentValue + 1;
+            });
+        });
+    });
 </script>
-
 </body>
-
 </html>
