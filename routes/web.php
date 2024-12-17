@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PesanController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\HomeController;
 
 
 // Route::get('/', function () {
@@ -14,6 +15,9 @@ use App\Http\Controllers\CartController;
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
+
+Route::middleware('auth:pelanggan')->get('/home', [HomeController::class, 'index'])->name('homeWelcome');
+
 
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);

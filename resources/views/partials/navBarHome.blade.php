@@ -7,7 +7,7 @@
 
         <!-- Div untuk Home, Menu, About di tengah -->
         <div class="flex flex-grow justify-center" style="margin-left: -100px;">
-            <a href="{{ route('welcome') }}" class="mx-4 text-gray-700 hover:text-gray-900">Home</a>
+            <a href="{{ route('homeWelcome') }}" class="mx-4 text-gray-700 hover:text-gray-900">Home</a>
             <a href="{{ route('homeMenu') }}" class="mx-4 text-gray-700 hover:text-gray-900">Menu</a>
             <a href="#about" class="mx-4 text-gray-700 hover:text-gray-900">About</a>
         </div>
