@@ -16,9 +16,14 @@
 <div class="container mx-auto p-6">
     <h1 class="text-2xl font-bold text-center mb-6">Checkout</h1>
 
+    <!-- Menampilkan pesan success atau error -->
     @if (session('success'))
         <div class="bg-green-500 text-white p-4 rounded mb-4">
             {{ session('success') }}
+        </div>
+    @elseif(session('error'))
+        <div class="bg-red-500 text-white p-4 rounded mb-4">
+            {{ session('error') }}
         </div>
     @endif
 
@@ -68,4 +73,5 @@
 </div>
 
 </body>
+
 </html>

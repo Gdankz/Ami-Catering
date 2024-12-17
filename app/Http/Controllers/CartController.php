@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Makanan;
+use App\Models\Pesan;
+use Carbon\Carbon;
 
 class CartController extends Controller
 {
@@ -84,11 +86,51 @@ class CartController extends Controller
         return view('checkout', compact('pesan'));
     }
 
-    // Memproses checkout
     public function processCheckout(Request $request)
     {
-        // Kosongkan session keranjang setelah checkout
-        session()->forget('cart');
-        return redirect()->route('homeMenu')->with('success', 'Checkout berhasil dilakukan!');
+        $cart = session()->get('cart', []);
+
+        // Periksa apakah keranjang kosong
+        if (empty($cart)) {
+            return redirect()->route('homeMenu')->with('error', 'Keranjang kosong, tidak ada pesanan yang dapat diproses.');
+        }
+
+        try {
+            // Pastikan pengguna sudah login, jika tidak fallback ke ID pelanggan default
+            $idPelanggan = auth()->check() ? auth()->user()->idPelanggan : 1; // ID pelanggan default adalah 1 jika tidak login
+
+            // Iterasi melalui isi keranjang
+            foreach ($cart as $item) {
+                // Cari data makanan
+                $makanan = Makanan::where('kodeMakanan', $item['kodeMakanan'])->first();
+
+                if (!$makanan) {
+                    // Jika makanan tidak ditemukan, kembalikan error
+                    return redirect()->route('checkout')->with('error', 'Makanan dengan kode ' . $item['kodeMakanan'] . ' tidak ditemukan.');
+                }
+
+                // Simpan data pesanan ke tabel pesan
+                Pesan::create([
+                    'idPelanggan'   => $idPelanggan, // Gunakan ID pelanggan yang valid
+                    'idAdmin'       => 1, // ID admin tetap
+                    'kodeMakanan'   => $makanan->kodeMakanan,
+                    'idStaff'       => 1, // ID staff tetap
+                    'statusAntar'   => 'Proses',
+                    'tanggalPesan'  => Carbon::now(), // Waktu pesan saat ini
+                    'tanggalSelesai'=> Carbon::now()->addDays(1), // Default selesai +1 hari
+                    'totalBiaya'    => $makanan->harga * $item['quantity'],
+                ]);
+            }
+
+            // Hapus keranjang setelah semua data berhasil disimpan
+            session()->forget('cart');
+
+            // Redirect ke halaman menu dengan pesan sukses
+            return redirect()->route('homeMenu')->with('success', 'Checkout berhasil! Pesanan Anda telah disimpan ke database.');
+        } catch (\Exception $e) {
+            // Tangkap error dan kembalikan pesan ke halaman checkout
+            \Log::error('Error while processing order: ' . $e->getMessage());
+            return redirect()->route('checkout')->with('error', 'Terjadi kesalahan saat memproses pesanan: ' . $e->getMessage());
+        }
     }
 }
