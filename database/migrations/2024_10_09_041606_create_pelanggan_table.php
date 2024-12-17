@@ -15,11 +15,12 @@ class CreatePelangganTable extends Migration
                 $table->string('noHP', 20)->nullable();
                 $table->string('email', 100)->unique();
                 $table->string('password', 255);
+                $table->string('role', 255)->nullable();
+                $table->tinyInteger('is_admin')->default(0); // Menambahkan kolom is_admin
                 $table->timestamps();
             });
         }
     }
-    
 
     public function down()
     {

@@ -3,122 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produk Makanan</title>
+    <title>Profil Pengguna</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        /* Sidebar static */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 200px;
-            height: 100%;
-            background-color: #1e3a8a;
-            color: white;
-            padding: 20px;
-        }
-
-        .content {
-            margin-left: 220px; /* Offset content to the right of sidebar */
-        }
-    </style>
 </head>
 <body class="bg-gray-100 min-h-screen">
 <!-- Sidebar -->
-<div class="sidebar">
-    <h1 class="text-white text-xl font-bold mb-4">Dashboard Menu</h1>
+<div class="sidebar fixed top-0 left-0 w-64 h-full bg-blue-600 text-white p-6">
+    <h1 class="text-xl font-bold mb-6">Dashboard Menu</h1>
     <ul>
-        <li class="mb-2">
-            <form action="{{ route('profil') }}" method="GET" class="inline">
+        <li class="mb-4"><a href="#" class="hover:underline">Profil Saya</a></li>
+        <li class="mb-4"><a href="#" class="hover:underline">Pesanan Saya</a></li>
+        <li class="mb-4"><a href="#" class="hover:underline">Riwayat Transaksi</a></li>
+        <li class="mb-4">
+            <form action="{{ route('logout') }}" method="POST">
                 @csrf
-                <button type="submit" class="text-white hover:text-gray-300">Profil Saya</button>
-            </form>
-        </li>
-        <li class="mb-2"><a href="#" class="text-white hover:underline">Pesanan Saya</a></li>
-        <li class="mb-2"><a href="#" class="text-white hover:underline">Riwayat Transaksi</a></li>
-        <li class="mb-2">
-            <form action="{{ route('logout') }}" method="POST" class="inline">
-                @csrf
-                <button type="submit" class="text-white hover:text-gray-300">Keluar</button>
+                <button type="submit" class="hover:underline">Keluar</button>
             </form>
         </li>
     </ul>
 </div>
 
 <!-- Main Content -->
-<div class="content">
-    <nav class="bg-blue-500 p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-white text-xl font-bold">Ami Catering</h1>
-        </div>
-    </nav>
-
-    <div class="container mx-auto mt-10">
+<div class="ml-64 p-6">
+    <div class="container mx-auto">
         <div class="bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-3xl font-bold mb-4">Produk Makanan</h2>
+            <h2 class="text-3xl font-bold mb-6">Profil Saya</h2>
 
-            <!-- Filter Section -->
             <div class="mb-4">
-                <h3 class="text-xl font-bold text-blue-500">Filter Makanan</h3>
-                <button id="veganFilter" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Vegan</button>
-                <button id="nonVeganFilter" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Non-Vegan</button>
+                <h3 class="text-xl font-bold text-blue-500">Informasi Pengguna</h3>
+                <ul class="list-disc list-inside">
+                    <li><strong>Nama:</strong> {{ auth()->user()->nama }}</li>
+                    <li><strong>Email:</strong> {{ auth()->user()->email }}</li>
+                    <li><strong>Alamat:</strong> {{ auth()->user()->alamat }}</li>
+                    <li><strong>No HP:</strong> {{ auth()->user()->noHP }}</li>
+                </ul>
+            </div>
+            <div class="mt-6 space-y-2 sm:space-y-0 sm:flex sm:space-x-2">
+                <a href="{{ route('edit-alamat') }}" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Edit Alamat</a>
+                <a href="{{ route('edit-nohp') }}" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Edit No HP</a>
+                <a href="{{ route('homeMenu') }}" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">Kembali</a>
             </div>
 
-            <!-- Product List -->
-            <div id="productList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                <!-- Contoh produk -->
-                <div class="bg-gray-100 p-4 rounded-lg shadow-md food-item" data-type="vegan">
-                    <img src="/images/vegan-salad.jpg" alt="Vegan Salad" class="w-full h-40 object-cover rounded-md mb-2">
-                    <h3 class="text-xl font-bold">Vegan Salad</h3>
-                    <p class="text-gray-600">Rp 25.000</p>
+            @if(auth()->user()->is_admin === 1)
+                <div class="mt-8">
+                    <h3 class="text-lg font-bold text-blue-500 mb-4">Admin Panel</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <a href="{{ route('homeAdmin') }}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-center">Home Admin</a>
+                        <a href="{{ route('menuAdmin') }}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-center">Kelola Menu</a>
+                        <a href="{{ route('staff') }}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-center">Kelola Staff</a>
+                        <a href="{{ route('cutomerAdmin') }}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-center">Kelola Pelanggan</a>
+                        <a href="{{ route('pesananAdmin') }}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-center">Kelola Pesanan</a>
+                        <a href="{{ route('laporan') }}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-center">Laporan</a>
+                    </div>
                 </div>
-                <div class="bg-gray-100 p-4 rounded-lg shadow-md food-item" data-type="non-vegan">
-                    <img src="/images/grilled-chicken.jpg" alt="Grilled Chicken" class="w-full h-40 object-cover rounded-md mb-2">
-                    <h3 class="text-xl font-bold">Grilled Chicken</h3>
-                    <p class="text-gray-600">Rp 40.000</p>
-                </div>
-                <!-- Tambahkan produk lainnya sesuai dengan kebutuhan -->
-            </div>
+            @endif
         </div>
     </div>
 </div>
-
-<script>
-    const veganFilter = document.getElementById('veganFilter');
-    const nonVeganFilter = document.getElementById('nonVeganFilter');
-    const foodItems = document.querySelectorAll('.food-item');
-
-    // Reset filter: Tampilkan semua makanan pada awalnya
-    const resetFilter = () => {
-        foodItems.forEach(item => {
-            item.style.display = 'block';
-        });
-    };
-
-    // Filter vegan
-    veganFilter.addEventListener('click', () => {
-        foodItems.forEach(item => {
-            if (item.getAttribute('data-type') === 'vegan') {
-                item.style.display = 'block';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    });
-
-    // Filter non-vegan
-    nonVeganFilter.addEventListener('click', () => {
-        foodItems.forEach(item => {
-            if (item.getAttribute('data-type') === 'non-vegan') {
-                item.style.display = 'block';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    });
-
-    // Jalankan reset filter pada saat halaman pertama kali dimuat
-    resetFilter();
-</script>
 </body>
 </html>
