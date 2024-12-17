@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -25,7 +24,7 @@ class MakananController extends Controller
             'name' => 'required|string',
             'category' => 'required|string',
             'price' => 'required|numeric',
-            'availability' => 'required|numeric',
+            'availability' => 'required|boolean', // Validasi untuk availability
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
@@ -51,7 +50,7 @@ class MakananController extends Controller
                 'jenisMakanan' => $validatedData['category'],
                 'harga' => $validatedData['price'],
                 'gambarMakanan' => $imagePath, // Simpan path gambar
-                'availability' => $validatedData['availability'], // Simpan availability sebagai boolean
+                'availability' => (bool)$validatedData['availability'], // Pastikan availability disimpan sebagai boolean
             ]);
 
             // Redirect dengan pesan sukses
@@ -62,8 +61,6 @@ class MakananController extends Controller
         }
     }
 
-
-
     // Menampilkan form edit untuk mengubah data makanan
     public function edit($kodeMakanan)
     {
@@ -71,7 +68,6 @@ class MakananController extends Controller
         return view('admin.editMakanan', compact('makanan')); // Menampilkan form edit dengan data makanan
     }
 
-    // Menyimpan perubahan data makanan
     // Menyimpan perubahan data makanan
     public function update(Request $request, $kodeMakanan)
     {
@@ -81,21 +77,21 @@ class MakananController extends Controller
             'category' => 'required|string',
             'price' => 'required|numeric',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'availability' => 'required|boolean',
+            'availability' => 'required|boolean', // Validasi untuk availability
         ]);
-    
+
         try {
             // Ambil data makanan berdasarkan kodeMakanan
             $makanan = Makanan::where('kodeMakanan', $kodeMakanan)->firstOrFail();
-    
+
             // Persiapkan data yang akan diupdate
             $dataUpdate = [
                 'namaMakanan' => $validatedData['name'],
                 'jenisMakanan' => $validatedData['category'],
                 'harga' => $validatedData['price'],
-                'availability' => $validatedData['availability'],
+                'availability' => (bool)$validatedData['availability'], // Pastikan availability disimpan sebagai boolean
             ];
-    
+
             // Jika ada file gambar baru
             if ($request->hasFile('image')) {
                 if ($makanan->gambarMakanan) {
@@ -105,16 +101,15 @@ class MakananController extends Controller
                 $imagePath = $request->file('image')->storeAs('images', $imageName, 'public');
                 $dataUpdate['gambarMakanan'] = $imagePath;
             }
-    
+
             // Update data makanan
             $makanan->update($dataUpdate);
-    
+
             return redirect()->back()->with('success', 'Data makanan berhasil diperbarui!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error updating data: ' . $e->getMessage());
         }
     }
-    
 
     // Menghapus data makanan
     public function destroy($kodeMakanan)
@@ -135,19 +130,22 @@ class MakananController extends Controller
             return redirect()->back()->with('error', 'Error deleting data: ' . $e->getMessage());
         }
     }
+
+    // Menampilkan makanan yang tersedia
     public function ShowMakanan()
     {
-        // Mengambil semua data makanan
-        $makanans = Makanan::take(3)->get();
+        // Mengambil makanan yang tersedia
+        $makanans = Makanan::where('availability', true)->take(3)->get();
 
         // Mengirim data ke view
         return view('menu', compact('makanans'));
     }
 
+    // Menampilkan semua makanan, hanya yang tersedia
     public function showAllMakanan()
     {
-        // Ambil data makanan dari database
-        $makanans = Makanan::all();  // Atau sesuai kebutuhan, misalnya dengan kondisi tertentu
+        // Ambil makanan yang tersedia
+        $makanans = Makanan::where('availability', true)->get(); // Menambahkan kondisi availability
         return view('homeMenu', compact('makanans'));
     }
 }
