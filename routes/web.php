@@ -35,6 +35,8 @@ Route::middleware('auth:pelanggan')->group(function () {
     Route::get('/edit-nohp', [AuthController::class, 'editNoHp'])->name('edit-nohp');
     Route::post('/update-nohp', [AuthController::class, 'updateNoHp'])->name('update-nohp');
     Route::get('/menu', [MakananController::class, 'ShowMakanan'])->name('menu');
+    Route::get('/profile', [PelangganController::class, 'showProfile'])->name('profile');
+    Route::put('/profile', [PelangganController::class, 'update'])->name('update-profile');
 });
 
 //Route::middleware(['auth'])->group(function () {
@@ -116,5 +118,7 @@ Route::middleware('auth:pelanggan')->group(function () {
     Route::get('/checkout', [CartController::class, 'showCheckout'])->name('checkout');
     Route::post('/checkout', [CartController::class, 'processCheckout'])->name('processCheckout');
 });
+
+
 
 
