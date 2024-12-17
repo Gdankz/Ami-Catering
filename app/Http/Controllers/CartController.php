@@ -21,10 +21,17 @@ class CartController extends Controller
         $kodeMakanan = $request->kodeMakanan;
         $quantity = $request->quantity;
 
-        // Tambahkan item ke keranjang menggunakan kodeMakanan
+        // Validasi: Pastikan kodeMakanan tidak kosong
+        if (empty($kodeMakanan)) {
+            return redirect()->route('homeMenu')->with('error', 'Kode Makanan tidak valid.');
+        }
+
+        // Periksa apakah kodeMakanan sudah ada di keranjang
         if (isset($cart[$kodeMakanan])) {
-            $cart[$kodeMakanan]['quantity'] += $quantity; // Jika sudah ada, tambah quantity
+            // Jika sudah ada, tambah quantity
+            $cart[$kodeMakanan]['quantity'] += $quantity;
         } else {
+            // Jika belum ada, simpan item baru dengan kodeMakanan dan quantity
             $cart[$kodeMakanan] = [
                 'kodeMakanan' => $kodeMakanan,
                 'quantity' => $quantity,
@@ -41,6 +48,17 @@ class CartController extends Controller
 
         // Ambil data makanan berdasarkan kodeMakanan di keranjang
         $pesan = collect($cart)->map(function ($item) {
+            // Pastikan kodeMakanan ada di item
+            if (!isset($item['kodeMakanan'])) {
+                // Jika tidak ada, kembalikan item dengan nilai default
+                return [
+                    'kodeMakanan' => 'Unknown',
+                    'namaMakanan' => 'Makanan tidak ditemukan',
+                    'quantity' => $item['quantity'],
+                    'totalBiaya' => 0,
+                ];
+            }
+
             // Cari makanan berdasarkan kodeMakanan
             $makanan = Makanan::where('kodeMakanan', $item['kodeMakanan'])->first();
 
