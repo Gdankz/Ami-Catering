@@ -19,34 +19,30 @@
 </head>
 
 <body class="bg-gray-50">
-    <!-- Memanggil navbar -->
-    @include('partials.navBar') <!-- Pastikan file ini ada dan berfungsi -->
-
-    <!-- Bagian Judul -->
+    @include('partials.navBar') 
     <div class="flex justify-end mt-4 bg-gray-50">
         <p class="font-bold text-6xl">TOP PICKS</p>
     </div>
 
-    <!-- Bagian Gambar -->
+
     <div class="flex justify-around items-center w-full h-screen bg-gray-100 -mt-20">
-        <!-- Gambar 1 -->
+        
         <div class="w-[400px] h-[400px]">
             <img class="rounded-full w-full h-full object-cover" src="{{ asset('images/fancy.png') }}" alt="Sehat">
         </div>
 
-        <!-- Gambar 2 (lebih tinggi) -->
+
         <div class="w-[700px] h-[700px] -mt-20">
             <img class="rounded-full w-full h-full object-cover" src="{{ asset('images/sehat.png') }}" alt="Sehat">
         </div>
-
-        <!-- Gambar 3 -->
+        
         <div class="w-[400px] h-[400px]">
             <img class="rounded-full w-full h-full object-cover" src="{{ asset('images/kuah.png') }}" alt="Sehat">
         </div>
     </div>
     <hr class="my-8 border-t-4 border-gray-300">
     <section class="grid grid-cols-3 gap-8 px-8">
-        <!-- Item 1 -->
+
         <div class="text-center">
             <img src="images/salad.png" alt="Salad" class="w-[250px] h-[250px] mx-auto rounded-full object-cover">
             <p class="mt-4 text-lg font-semibold">Tempe bacem
@@ -73,7 +69,7 @@
                 </div>
             </div>
         </div>
-        <!-- Item 2 -->
+
         <div class="text-center">
             <img src="images/mie.png" alt="Mie" class="w-[250px] h-[250px] mx-auto rounded-full object-cover">
             <p class="mt-4 text-lg font-semibold">Mie
@@ -100,7 +96,7 @@
                 </div>
             </div>
         </div>
-        <!-- Item 3 -->
+
         <div class="text-center">
             <img src="images/fancy.png" alt="Chicken Fillet"
                 class="w-[250px] h-[250px] mx-auto rounded-full object-cover">
@@ -155,7 +151,7 @@
                 </div>
             </div>
         </div>
-        <!-- Item 2 -->
+
         <div class="text-center">
             <img src="images/mie.png" alt="Mie" class="w-[250px] h-[250px] mx-auto rounded-full object-cover">
             <p class="mt-4 text-lg font-semibold">Ayam goreng
@@ -182,7 +178,7 @@
                 </div>
             </div>
         </div>
-        <!-- Item 3 -->
+
         <div class="text-center">
             <img src="images/fancy.png" alt="Chicken Fillet"
                 class="w-[250px] h-[250px] mx-auto rounded-full object-cover">
@@ -237,7 +233,7 @@
                 </div>
             </div>
         </div>
-        <!-- Item 2 -->
+
         <div class="text-center">
             <img src="images/mie.png" alt="Mie" class="w-[250px] h-[250px] mx-auto rounded-full object-cover">
             <p class="mt-4 text-lg font-semibold">Tumis sayur
@@ -264,7 +260,7 @@
                 </div>
             </div>
         </div>
-        <!-- Item 3 -->
+
         <div class="text-center">
             <img src="images/fancy.png" alt="Chicken Fillet"
                 class="w-[250px] h-[250px] mx-auto rounded-full object-cover">
@@ -319,7 +315,7 @@
                 </div>
             </div>
         </div>
-        <!-- Item 2 -->
+
         <div class="text-center">
             <img src="images/mie.png" alt="Mie" class="w-[250px] h-[250px] mx-auto rounded-full object-cover">
             <p class="mt-4 text-lg font-semibold">Nasi Kuning
@@ -346,7 +342,7 @@
                 </div>
             </div>
         </div>
-        <!-- Item 3 -->
+
         <div class="text-center">
             <img src="images/fancy.png" alt="Chicken Fillet"
                 class="w-[250px] h-[250px] mx-auto rounded-full object-cover">
@@ -401,7 +397,7 @@
                 </div>
             </div>
         </div>
-        <!-- Item 2 -->
+
         <div class="text-center">
             <img src="images/mie.png" alt="Mie" class="w-[250px] h-[250px] mx-auto rounded-full object-cover">
             <p class="mt-4 text-lg font-semibold">Tumis Kangkung
@@ -428,7 +424,7 @@
                 </div>
             </div>
         </div>
-        <!-- Item 3 -->
+
         <div class="text-center">
             <img src="images/fancy.png" alt="Chicken Fillet"
                 class="w-[250px] h-[250px] mx-auto rounded-full object-cover">
@@ -483,7 +479,7 @@
                 </div>
             </div>
         </div>
-        <!-- Item 2 -->
+
         <div class="text-center">
             <img src="images/mie.png" alt="Mie" class="w-[250px] h-[250px] mx-auto rounded-full object-cover">
             <p class="mt-4 text-lg font-semibold">Tempe goreng
@@ -510,7 +506,7 @@
                 </div>
             </div>
         </div>
-        <!-- Item 3 -->
+
         <div class="text-center">
             <img src="images/fancy.png" alt="Chicken Fillet"
                 class="w-[250px] h-[250px] mx-auto rounded-full object-cover">
@@ -539,6 +535,7 @@
 
             </div>
         </div>
+
         <div class="text-center">
             <img src="images/salad.png" alt="Salad" class="w-[250px] h-[250px] mx-auto rounded-full object-cover">
             <p class="mt-4 text-lg font-semibold">Tahu isi
@@ -565,7 +562,7 @@
                 </div>
             </div>
         </div>
-        <!-- Item 2 -->
+
         <div class="text-center">
             <img src="images/mie.png" alt="Mie" class="w-[250px] h-[250px] mx-auto rounded-full object-cover">
             <p class="mt-4 text-lg font-semibold">Sambe goreng kentang
