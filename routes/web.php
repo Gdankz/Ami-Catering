@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PesanController;
+use App\Http\Controllers\CartController;
+
 
 // Route::get('/', function () {
 //     return view('admin.homeAdmin');
@@ -102,6 +104,12 @@ Route::get('/home-menu', [MakananController::class, 'ShowAllMakanan'])->name('ho
 
 Route::get('/checkout', [PesanController::class, 'index'])->name('checkout')->middleware('auth:pelanggan');
 Route::post('/checkout', [PesanController::class, 'checkout'])->middleware('auth:pelanggan');
+
+
+//Route::get('/menu', [CartController::class, 'showMenu'])->name('homeMenu');
+Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');
+Route::get('/checkout', [CartController::class, 'showCheckout'])->name('checkout');
+Route::post('/checkout', [CartController::class, 'processCheckout'])->name('processCheckout');
 
 
 
