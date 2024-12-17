@@ -6,6 +6,7 @@ use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PesanController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
 
 
 // Route::get('/', function () {
@@ -92,9 +93,10 @@ Route::get('/admin/cutomer', function () {
     return view('admin.cutomerAdmin');
 })->name('cutomerAdmin');
 
-Route::get('/admin/pesanan', function () {
-    return view('admin.pesananAdmin'); // Buat view sesuai kebutuhan
-})->name('pesananAdmin');
+//Route::get('/admin/pesanan', function () {
+//    return view('admin.pesananAdmin'); // Buat view sesuai kebutuhan
+//})->name('pesananAdmin');
+Route::get('/admin/pesanan', [AdminController::class, 'daftarPesanan'])->name('admin.pesanan');
 
 Route::get('/admin/laporan', function () {
     return view('admin.laporan'); // Buat view sesuai kebutuhan

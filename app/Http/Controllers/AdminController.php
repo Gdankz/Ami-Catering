@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pelanggan;
-
+use App\Models\Pesan;
 
 class AdminController extends Controller
 {
@@ -19,4 +19,9 @@ class AdminController extends Controller
         return view('admin.pesananAdmin', compact('pelanggan')); // Kirim data ke view
     }
 
+    public function daftarPesanan()
+    {
+        $pesanan = Pesan::all(); // Ambil semua data pesanan
+        return view('admin.pesananAdmin', compact('pesanan'));
+    }
 }
