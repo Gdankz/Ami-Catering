@@ -13,7 +13,7 @@
         <!-- Div untuk Register dan Login di kanan dengan margin-right untuk geser ke kiri -->
         <div class="flex space-x-4 mr-4 relative">
             <!-- Form untuk Register -->
-            <form action="{{ route('register') }}" method="GET">
+            <form action="{{ route('checkout') }}" method="GET">
                 <button type="submit"
                         class="bg-[#143109] hover:bg-[#2a6912] text-[#fcfcfc] font-semibold py-2 px-4 rounded">
                     Checkout

@@ -100,3 +100,8 @@ Route::middleware('auth:pelanggan')->get('/home-menu', function () {
 
 Route::get('/home-menu', [MakananController::class, 'ShowAllMakanan'])->name('homeMenu');
 
+Route::get('/checkout', [PesanController::class, 'index'])->name('checkout')->middleware('auth:pelanggan');
+Route::post('/checkout', [PesanController::class, 'checkout'])->middleware('auth:pelanggan');
+
+
+
