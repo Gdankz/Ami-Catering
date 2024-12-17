@@ -28,45 +28,12 @@
         <h1 class="text-8xl font-bold text-[#143109]">Traditional Food with</h1>
         <h1 class="text-8xl font-bold text-[#143109]">Modern Touch</h1>
 
-<<<<<<< HEAD
-    <!-- Konten utama -->
-    <section class="text-center my-8">
-        <div>
-            <h1 class="text-8xl font-bold text-[#143109]">Traditional Food with</h1>
-            <h1 class="text-8xl font-bold text-[#143109]">Modern Touch</h1>
-
-            <div class="relative flex justify-center items-center mt-12">
-                <div
-                    class="w-[1000px] h-[1000px] bg-[#143109] rounded-full absolute left-0 top-8 ml-[-400px] overflow-hidden">
-                </div>
-                <img id="bowlImage" src="\images\salad.png" alt="Bowl Image"
-                    class="w-[495px] h-[495px] absolute z-10 object-cover ml-[-900px] top-[-120px]">
-            </div>
-
-            <div id="content" class="ml-[700px] fade">
-                <h1 class="text-2xl font-bold text-left text-[#143109]">MODERN TRADITIONAL FLAVOR</h1>
-                <h2 class="text-lg text-left text-[#143109]">We combine classic recipes with modern servings and use
-                    local ingredients with its culinary techniques.</h2>
-            </div>
-
-            <div class="ml-[340px] mt-[25px]">
-
-                <button
-                    class="w-[150px] h-[25px] bg-white text-[#143109] border border-[#143109] transition duration-300 button1"></button>
-                <button
-                    class="w-[150px] h-[25px] bg-[#143109] text-white border border-[#143109] transition duration-300 button2"></button>
-                <button
-                    class="w-[150px] h-[25px] bg-[#143109] text-white border border-[#143109] transition duration-300 button3"></button>
-            
-                </div>
-=======
         <div class="relative flex justify-center items-center mt-12">
             <div
                 class="w-[1000px] h-[1000px] bg-[#143109] rounded-full absolute left-0 top-8 ml-[-400px] overflow-hidden">
             </div>
             <img id="bowlImage" src="/images/salad.png" alt="Bowl Image"
                  class="w-[495px] h-[495px] absolute z-10 object-cover ml-[-900px] top-[-120px]">
->>>>>>> 0f3cf19d1b7e9d9103d9e8c0e7e7be402e485d1b
         </div>
 
         <div id="content" class="ml-[700px] fade">

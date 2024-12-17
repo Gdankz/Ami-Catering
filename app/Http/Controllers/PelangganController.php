@@ -14,7 +14,7 @@ class PelangganController extends Controller
 //        $pelanggan = Auth::user();
 
         $pelanggan = Auth::user();
-//        dd($pelanggan);
+        //        dd($pelanggan);
 
         // Debugging: Log data pelanggan yang login
 //        \Log::info('Pelanggan yang login:', [$pelanggan]);
@@ -29,7 +29,30 @@ class PelangganController extends Controller
         $pelanggan = Auth::user();
 
         // Mengirimkan data pengguna ke view
-        return view('profil', ['pelanggan' => $pelanggan]);
+        return view('dashboard', ['pelanggan' => $pelanggan]);
+    }
+    public function update(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'alamat' => 'required|string|max:255',
+            'noHP' => 'required|string|max:15',
+        ]);
+
+        // Mendapatkan user yang sedang login
+        $user = Auth::user();
+        $user->nama = $request->input('nama');
+        $user->email = $request->input('email');
+        $user->alamat = $request->input('alamat');
+        $user->noHP = $request->input('noHP');
+
+        // Menyimpan perubahan
+        $user->save();
+
+        // Redirect kembali ke halaman profil dengan pesan sukses
+        return redirect()->route('profile')->with('success', 'Profil berhasil diperbarui!');
     }
 }
 

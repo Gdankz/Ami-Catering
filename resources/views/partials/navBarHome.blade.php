@@ -7,31 +7,36 @@
 
         <!-- Div untuk Home, Menu, About di tengah -->
         <div class="flex flex-grow justify-center" style="margin-left: -100px;">
+            <a href="{{ route('welcome') }}" class="mx-4 text-gray-700 hover:text-gray-900">Home</a>
             <a href="{{ route('homeMenu') }}" class="mx-4 text-gray-700 hover:text-gray-900">Menu</a>
+            <a href="#about" class="mx-4 text-gray-700 hover:text-gray-900">About</a>
         </div>
 
         <!-- Div untuk Register dan Login di kanan dengan margin-right untuk geser ke kiri -->
         <div class="flex space-x-4 mr-4 relative">
-            <!-- Form untuk Register -->
+            <!-- Form untuk checkout -->
             <form action="{{ route('checkout') }}" method="GET">
                 <button type="submit"
-                        class="bg-[#143109] hover:bg-[#2a6912] text-[#fcfcfc] font-semibold py-2 px-4 rounded">
+                    class="bg-[#143109] hover:bg-[#2a6912] text-[#fcfcfc] font-semibold py-2 px-4 rounded">
                     Checkout
                 </button>
             </form>
 
             <!-- Dropdown untuk Profile -->
             <div class="relative">
-                <button onclick="toggleDropdown()" class="border border-[#143109] text-[#143109] hover:bg-[#2a6912] hover:text-white font-semibold py-2 px-4 rounded bg-transparent">
+                <button onclick="toggleDropdown()"
+                    class="border border-[#143109] text-[#143109] hover:bg-[#2a6912] hover:text-white font-semibold py-2 px-4 rounded bg-transparent">
                     Profile
                 </button>
 
                 <!-- Dropdown menu -->
                 <div id="profileDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg hidden">
-                    <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Dashboard</a>
+                    <a href="{{ route('dashboard') }}"
+                        class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Dashboard</a>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button type="submit" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-200">Logout</button>
+                        <button type="submit"
+                            class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-200">Logout</button>
                     </form>
                 </div>
             </div>
@@ -46,7 +51,7 @@
     }
 
     // Close the dropdown if clicked outside
-    window.addEventListener('click', function(event) {
+    window.addEventListener('click', function (event) {
         const dropdown = document.getElementById('profileDropdown');
         const button = event.target.closest('button');
         if (!dropdown.contains(event.target) && !button) {
