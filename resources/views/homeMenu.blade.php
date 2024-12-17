@@ -49,6 +49,10 @@
                     <option value="morning">Breakfast</option>
                     <option value="evening">Lunch</option>
                     <option value="evening">Dinner</option>
+                    <option value="evening">Breakfast & Lunch</option>
+                    <option value="evening">Breakfast & Dinner</option>
+                    <option value="evening">Lunch & Dinner</option>
+                    <option value="evening">Full day</option>
                 </select>
 
                 <!-- Price and Quantity -->
@@ -66,7 +70,7 @@
                 <form action="{{ route('addToCart') }}" method="POST" class="mt-4">
                     @csrf
                     <input type="hidden" name="kodeMakanan" value="{{ $item->kodeMakanan }}">  <!-- Kirim kodeMakanan, bukan id -->
-                    <input type="hidden" name="quantity" value="1">
+                    <input type="hidden" name="quantity" class="hiddenQuantity" value="1"> <!-- Hidden quantity yang akan diperbarui -->
                     <button type="submit" class="flex items-center justify-center w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400">
                         Add to Cart
                     </button>
@@ -83,21 +87,30 @@
         const numberInputs = document.querySelectorAll('.numberInput');
         const hiddenQuantities = document.querySelectorAll('.hiddenQuantity');
 
+        // Logika tombol decrease
         decreaseButtons.forEach((decreaseButton, index) => {
             decreaseButton.addEventListener('click', function () {
                 let currentValue = parseInt(numberInputs[index].value);
                 if (currentValue > 0) {
                     numberInputs[index].value = currentValue - 1;
-                    hiddenQuantities[index].value = currentValue - 1;
+                    hiddenQuantities[index].value = currentValue - 1; // Update hidden input
                 }
             });
         });
 
+        // Logika tombol increase
         increaseButtons.forEach((increaseButton, index) => {
             increaseButton.addEventListener('click', function () {
                 let currentValue = parseInt(numberInputs[index].value);
                 numberInputs[index].value = currentValue + 1;
-                hiddenQuantities[index].value = currentValue + 1;
+                hiddenQuantities[index].value = currentValue + 1; // Update hidden input
+            });
+        });
+
+        // Update hidden input ketika nilai manual diubah
+        numberInputs.forEach((numberInput, index) => {
+            numberInput.addEventListener('input', function () {
+                hiddenQuantities[index].value = numberInput.value;
             });
         });
     });
