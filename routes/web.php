@@ -121,6 +121,11 @@ Route::middleware('auth:pelanggan')->group(function () {
     Route::post('/checkout', [CartController::class, 'processCheckout'])->name('processCheckout');
 });
 
+Route::middleware('auth:pelanggan')->group(function () {
+    // Define pesananAdmin route
+    Route::get('/pesanan-admin', [AdminController::class, 'daftarPesanan'])->name('pesananAdmin');
+});
+
 
 
 
