@@ -271,49 +271,50 @@
             </div>
         </div>
         <!-- Daftar Makanan -->
-        @foreach ($makanans as $makanan)
-            <div class="w-[30%] h-[80vh] max-w-[70%]   rounded-lg   flex flex-col">
-                <!-- Area Gambar (80%) -->
-                <div class="flex-grow flex items-center justify-center  rounded-t-lg overflow-hidden">
-                    <img src="{{ asset('storage/' . $makanan->gambarMakanan) }}" alt="{{ $makanan->namaMakanan }}"
-                        class="max-h-full max-w-full object-contain">
-                </div>
-                <!-- Area Keterangan (20%) -->
-                <div class="p-4">
-                    <h3 class="text-lg font-semibold">{{ $makanan->namaMakanan }}</h3>
-                    <p class="text-gray-500">{{ $makanan->jenisMakanan }}</p>
-                    <div class="flex justify-between items-center mt-4">
-                        <p class="text-gray-700">Rp {{ number_format($makanan->harga, 0, ',', '.') }}</p>
-                        <div class="flex items-center gap-2">
+       <!-- Daftar Makanan -->
+@foreach ($makanans as $makanan)
+<div class="w-[30%] h-[80vh] max-w-[70%] rounded-lg flex flex-col">
+    <!-- Area Gambar (80%) -->
+    <div class="flex-grow flex items-center justify-center rounded-t-lg overflow-hidden">
+        <img src="{{ asset('storage/' . $makanan->gambarMakanan) }}" 
+             alt="{{ $makanan->namaMakanan }}"
+             class="max-h-full max-w-full object-contain"
+             style="opacity: {{ $makanan->availability == 1 ? '1' : '0.4' }};">
+    </div>
+    <!-- Area Keterangan (20%) -->
+    <div class="p-4">
+        <h3 class="text-lg font-semibold">{{ $makanan->namaMakanan }}</h3>
+        <p class="text-gray-500">{{ $makanan->jenisMakanan }}</p>
+        <div class="flex justify-between items-center mt-4">
+            <p class="text-gray-700">Rp {{ number_format($makanan->harga, 0, ',', '.') }}</p>
+            <div class="flex items-center gap-2">
+                <!-- Tombol Edit -->
+                <button type="button" class="text-blue-500"
+                    onclick="openEditModal(
+                        '{{ $makanan->kodeMakanan }}',
+                        '{{ $makanan->namaMakanan }}',
+                        '{{ $makanan->jenisMakanan }}',
+                        '{{ $makanan->harga }}',
+                        '{{ $makanan->availability }}',  
+                        '{{ $makanan->gambarMakanan ? asset('storage/' . $makanan->gambarMakanan) : '' }}'
+                    )">
+                    <img src="{{ asset('images/edit.png') }}" alt="Edit" class="w-6 h-6">
+                </button>
 
-
-                            <!-- Tombol Edit -->
-                            <button type="button" class="text-blue-500"
-                                onclick="openEditModal(
-        '{{ $makanan->kodeMakanan }}',
-        '{{ $makanan->namaMakanan }}',
-        '{{ $makanan->jenisMakanan }}',
-        '{{ $makanan->harga }}',
-        '{{ $makanan->availability }}',  
-        '{{ $makanan->gambarMakanan ? asset('storage/' . $makanan->gambarMakanan) : '' }}'
-    )">
-                                <img src="{{ asset('..\images\edit.png') }}" alt="Edit" class="w-6 h-6">
-                            </button>
-
-
-                            <!-- Tombol Hapus -->
-                            <form action="{{ route('makanan.destroy', $makanan->kodeMakanan) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-500">
-                                    <img src="{{ asset('..\images\delete.png') }}" alt="Hapus" class="w-6 h-6">
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                <!-- Tombol Hapus -->
+                <form action="{{ route('makanan.destroy', $makanan->kodeMakanan) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="text-red-500">
+                        <img src="{{ asset('images/delete.png') }}" alt="Hapus" class="w-6 h-6">
+                    </button>
+                </form>
             </div>
-        @endforeach
+        </div>
+    </div>
+</div>
+@endforeach
+
 
 
     </div>
