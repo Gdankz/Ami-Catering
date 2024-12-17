@@ -55,5 +55,36 @@ class CartController extends Controller
         session()->forget('cart');
         return redirect()->route('homeMenu')->with('success', 'Pesanan berhasil diproses!');
     }
+
+    public function addToCart(Request $request)
+    {
+        $cart = session()->get('cart', []);
+
+        $kodeMakanan = $request->kodeMakanan;
+        $quantity = $request->quantity;
+
+        // Validasi: Pastikan kodeMakanan dan quantity ada dalam request
+        if (empty($kodeMakanan) || empty($quantity)) {
+            return redirect()->route('homeMenu')->with('error', 'Kode Makanan atau Quantity tidak valid.');
+        }
+
+        // Periksa apakah item sudah ada di dalam keranjang
+        if (isset($cart[$kodeMakanan])) {
+            // Jika item sudah ada, tambahkan quantity
+            $cart[$kodeMakanan]['quantity'] += $quantity;
+        } else {
+            // Jika item belum ada, tambahkan item baru ke keranjang
+            $cart[$kodeMakanan] = [
+                'kodeMakanan' => $kodeMakanan,
+                'quantity' => $quantity,
+            ];
+        }
+
+        // Simpan kembali keranjang ke session
+        session(['cart' => $cart]);
+
+        return redirect()->route('checkout')->with('success', 'Makanan berhasil ditambahkan ke keranjang!');
+    }
+
 }
 
