@@ -61,7 +61,7 @@
 
                     <div class="flex items-center border border-gray-200 rounded-md overflow-hidden shadow-sm">
                         <button class="decrease w-8 h-8 flex items-center justify-center bg-gray-100 text-green-600 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-300">-</button>
-                        <input class="numberInput w-12 text-center text-lg focus:outline-none focus:ring-2 focus:ring-green-300 bg-transparent border-none" type="number" value="0" min="0">
+                        <input class="numberInput w-12 text-center text-lg focus:outline-none focus:ring-2 focus:ring-green-300 bg-transparent border-none" type="number" value="1" min="1">
                         <button class="increase w-8 h-8 flex items-center justify-center bg-gray-100 text-green-600 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-300">+</button>
                     </div>
                 </div>
