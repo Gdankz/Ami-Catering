@@ -1,4 +1,4 @@
-<nav class="bg-white">
+<nav class="bg-white fixed top-0 left-0 w-full z-50 shadow-md">
     <div class="container mx-auto flex justify-between items-center py-4">
         <!-- Logo di kiri -->
         <a href="{{ route('homeAdmin') }}" class="navbar-brand ml-4">
@@ -6,7 +6,6 @@
         </a>
         <!-- Menu Navbar -->
         <div class="flex space-x-8">
- 
             <a href="{{ route('menuAdmin') }}"
                class="relative text-[#143109] text-lg font-medium transition-all duration-300 ease-in-out {{ request()->routeIs('menuAdmin') ? 'active' : 'hover:text-gray-700' }}">
                 Menu
@@ -23,10 +22,6 @@
                class="relative text-[#143109] text-lg font-medium transition-all duration-300 ease-in-out {{ request()->routeIs('pesananAdmin') ? 'active' : 'hover:text-gray-700' }}">
                 Order
             </a>
-            {{-- <a href="{{ route('laporan') }}"
-               class="relative text-[#143109] text-lg font-medium transition-all duration-300 ease-in-out {{ request()->routeIs('laporan') ? 'active' : 'hover:text-gray-700' }}">
-                Report
-            </a> --}}
         </div>
         <!-- Profil -->
         <div class="flex space-x-4 mr-4">
@@ -38,32 +33,34 @@
 </nav>
 
 <style>
-    /* Warna dasar untuk menu */
+    /* Tambahan untuk navbar tetap */
     nav {
-        background-color: #ffffff; /* Warna oranye untuk latar belakang */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 50; /* Pastikan berada di atas elemen lainnya */
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Opsional: tambahkan bayangan */
     }
 
-    /* Garis hijau untuk menu aktif */
+    /* Warna dasar untuk menu */
     .active::before {
         content: '';
         position: absolute;
-        top: -10px; /* Letak garis di atas teks */
+        top: -10px;
         left: 0;
         right: 0;
-        height: 4px; /* Ketebalan garis */
-        background-color: #143109; /* Warna hijau untuk garis */
-        border-radius: 2px; /* Opsional, untuk sudut melengkung */
+        height: 4px;
+        background-color: #143109;
+        border-radius: 2px;
     }
 
-    /* Animasi hover */
-   
-    /* Animasi hover */
+    /* Hover */
     .hover\:text-gray-200:hover {
         color: #e5e5e5;
     }
 
-    /* Posisi teks relatif untuk menampilkan garis hijau */
     .relative {
         position: relative;
-    }
+    }
 </style>
