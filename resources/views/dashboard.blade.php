@@ -69,9 +69,6 @@
     </div>
 
 
-
-
-
     @if(auth()->user()->is_admin === 1)
         <div class="mt-8">
             <h3 class="text-lg font-bold text-blue-500 mb-4">Admin Panel</h3>
@@ -85,7 +82,7 @@
                 <a href="{{ route('staff') }}"
                     class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-center">Kelola
                     Staff</a>
-                <a href="{{ route('cutomerAdmin') }}"
+                <a href="{{ route('customerAdmin') }}"
                     class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-center">Kelola
                     Pelanggan</a>
                 <a href="{{ route('pesananAdmin') }}"

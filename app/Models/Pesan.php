@@ -23,5 +23,7 @@ class Pesan extends Model
         'tanggalPesan',
         'tanggalSelesai',
         'totalBiaya',
+        'deskripsi',
+        'buktiTransfer',
     ];
 }
