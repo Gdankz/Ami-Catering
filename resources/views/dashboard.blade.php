@@ -69,9 +69,6 @@
     </div>
 
 
-
-
-
     @if(auth()->user()->is_admin === 1)
         <div class="mt-8">
             <h3 class="text-lg font-bold text-blue-500 mb-4">Admin Panel</h3>

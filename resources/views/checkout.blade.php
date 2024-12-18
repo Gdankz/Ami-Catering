@@ -55,7 +55,7 @@
         </div>
 
         <div>
-            <form action="{{ route('processCheckout') }}" method="POST" enctype="multipart/form-data">
+            <form id="checkoutForm" action="{{ route('processCheckout') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="bg-white p-6 rounded shadow mb-6">
                     <table class="w-full border-collapse border border-gray-300">
@@ -91,8 +91,8 @@
 
                 <!-- Upload Foto -->
                 <div class="mb-6">
-                    <label for="photo" class="block text-lg font-semibold mb-2">Upload Foto</label>
-                    <input type="file" id="photo" name="photo" class="w-full p-3 border rounded-md">
+                    <label for="photo" class="block text-lg font-semibold mb-2">Upload Foto (Bukti Transfer)</label>
+                    <input type="file" id="photo" name="photo" class="w-full p-3 border rounded-md" required>
                 </div>
 
                 <!-- Total Biaya -->
@@ -113,6 +113,7 @@
     </div>
 </div>
 <script>
+    // Update Payment Detail based on selected payment method
     function updatePaymentDetail() {
         const paymentDetails = {
             payment1: 'Bank Mandiri - Transfer ke rekening 1234567890.',
@@ -126,6 +127,15 @@
             document.getElementById('paymentDetail').textContent = paymentDetails[selected.id];
         }
     }
+
+    // Validasi untuk memastikan bukti transfer diunggah sebelum submit form
+    document.getElementById('checkoutForm').addEventListener('submit', function (e) {
+        const photoInput = document.getElementById('photo');
+        if (!photoInput.files.length) {
+            e.preventDefault();
+            alert("Harap unggah bukti transfer sebelum melanjutkan.");
+        }
+    });
 </script>
 </body>
 
