@@ -96,7 +96,10 @@ Route::get('/admin/cutomer', function () {
 //Route::get('/admin/pesanan', function () {
 //    return view('admin.pesananAdmin'); // Buat view sesuai kebutuhan
 //})->name('pesananAdmin');
-Route::get('/admin/pesanan', [AdminController::class, 'daftarPesanan'])->name('admin.pesanan');
+Route::get('/admin/pesanan', [AdminController::class, 'daftarPesanan'])->name('admin.pesanan');  
+Route::get('/admin/pesanan/detail/{idPelanggan}', [AdminController::class, 'getPesananByPelanggan']); 
+
+
 
 Route::get('/admin/laporan', function () {
     return view('admin.laporan'); // Buat view sesuai kebutuhan

@@ -114,6 +114,12 @@
             });
         });
     });
+document.querySelector('a[href="#about"]').addEventListener('click', (event) => {
+    if (window.location.pathname === '/') {
+        event.preventDefault();
+        document.querySelector('#about').scrollIntoView({ behavior: 'smooth' });
+    }
+});
 
 </script>
 </body>

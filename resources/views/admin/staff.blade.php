@@ -89,6 +89,13 @@
 
     <!-- Memanggil navbar -->
     @include('partials.navBarAdmin')
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
     {{-- bagian untuk menampilkan form penambahan staff --}}
     <div id="myModal" class="modal">
         <div class="modal-content">

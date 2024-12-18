@@ -9,7 +9,9 @@
         <div class="flex flex-grow justify-center" style="margin-left: -100px;"> <!-- Geser ke kiri -->
             <a href="{{ route('welcome') }}" class="mx-4 text-gray-700 hover:text-gray-900">Home</a>
             <a href="{{ route('menu') }}" class="mx-4 text-gray-700 hover:text-gray-900">Menu</a>
-            <a href="#about" class="mx-4 text-gray-700 hover:text-gray-900">About</a>
+            <a href="{{ route('welcome') }}#about" class="mx-4 text-gray-700 hover:text-gray-900">About</a>
+>
+
         </div>
 
         <!-- Div untuk Register dan Login di kanan dengan margin-right untuk geser ke kiri -->

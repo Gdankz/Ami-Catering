@@ -109,6 +109,9 @@
 
     <!-- Memanggil navbar -->
     @include('partials.navBarAdmin')
+    <br>
+    <br>
+    <br>
 
     <!-- Notification Overlay -->
     <div class="notification-overlay" id="notificationOverlay"></div>
@@ -131,6 +134,10 @@
 
 
         <div id="myModal" class="modal">
+            <br>
+    <br>
+    <br>
+
             <div class="modal-content">
                 <form id="foodForm"
                     action="{{ isset($makanan) ? route('makanan.update', $makanan->kodeMakanan) : route('makanan.store') }}"
@@ -207,6 +214,10 @@
 
         {{-- --------------------------- --}}
         <div id="myModalEdit" class="modal">
+            <br>
+    <br>
+    <br>
+
             <div class="modal-content">
 
                 <form id="foodFormEdit" action="/makanan/{kodeMakanan}" method="POST" enctype="multipart/form-data"
