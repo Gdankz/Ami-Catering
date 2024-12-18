@@ -127,5 +127,10 @@ Route::middleware('auth:pelanggan')->group(function () {
 });
 
 
+use App\Http\Controllers\CustomerController;
+
+// web.php
+Route::get('admin/customers', [CustomerController::class, 'index']);
+
 
 

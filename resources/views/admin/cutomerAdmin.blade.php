@@ -23,7 +23,8 @@
             font-family: Arial, sans-serif;
         }
 
-        th, td {
+        th,
+        td {
             padding: 10px;
             text-align: left;
             border: 1px solid #ddd;
@@ -41,7 +42,8 @@
             border: 1px solid #000;
         }
 
-        table th, table td {
+        table th,
+        table td {
             border: 1px solid #000;
             text-align: left;
             padding: 10px;
@@ -59,7 +61,8 @@
 
     <main>
         <div class="flex justify-center mb-6">
-            <input type="text" placeholder="Search" class="w-1/2 border rounded-full px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-center">
+            <input type="text" placeholder="Search"
+                class="w-1/2 border rounded-full px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-center">
         </div>
         <table>
             <thead>
@@ -71,19 +74,22 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($customers as $customer)
+                @if ($customers->count() === 0)
                     <tr>
-                        <td>{{ $customer->id }}</td>
-                        <td>{{ $customer->name }}</td>
-                        <td>{{ $customer->address }}</td>
-                        <td>{{ $customer->phone_number }}</td>
+                        <td colspan="4">No customers found.</td>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="4" class="text-center">No customers found</td>
-                    </tr>
-                @endforelse
+                @else
+                @foreach($customers as $customer)
+                <p>{{ $customer->name }}</p>
+                <!-- Tampilkan data lain sesuai kebutuhan -->
+            @endforeach
+            
+                @endif
+
+
+
             </tbody>
+
         </table>
     </main>
 </body>
