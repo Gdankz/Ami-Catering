@@ -6,7 +6,7 @@
         </a>
         <!-- Menu Navbar -->
         <div class="flex space-x-8">
- 
+
             <a href="{{ route('menuAdmin') }}"
                class="relative text-[#143109] text-lg font-medium transition-all duration-300 ease-in-out {{ request()->routeIs('menuAdmin') ? 'active' : 'hover:text-gray-700' }}">
                 Menu
@@ -15,7 +15,7 @@
                class="relative text-[#143109] text-lg font-medium transition-all duration-300 ease-in-out {{ request()->routeIs('staff') ? 'active' : 'hover:text-gray-700' }}">
                 Staff
             </a>
-            <a href="{{ route('cutomerAdmin') }}"
+            <a href="{{ route('customerAdmin') }}"
                class="relative text-[#143109] text-lg font-medium transition-all duration-300 ease-in-out {{ request()->routeIs('cutomerAdmin') ? 'active' : 'hover:text-gray-700' }}">
                 Customers
             </a>
@@ -56,7 +56,7 @@
     }
 
     /* Animasi hover */
-   
+
     /* Animasi hover */
     .hover\:text-gray-200:hover {
         color: #e5e5e5;

@@ -89,9 +89,11 @@ Route::get('/menu', function () {
 })->name('menu');
 
 
-Route::get('/admin/cutomer', function () {
-    return view('admin.cutomerAdmin');
-})->name('cutomerAdmin');
+//Route::get('/admin/customer', function () {
+//    return view('admin.customerAdmin');
+//})->name('customerAdmin');
+
+Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('customerAdmin');
 
 //Route::get('/admin/pesanan', function () {
 //    return view('admin.pesananAdmin'); // Buat view sesuai kebutuhan

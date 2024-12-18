@@ -22,11 +22,12 @@ class PelangganController extends Controller
         // Kirim data pelanggan ke view dashboard
         // return view('dashboard', ['pelanggan' => $pelanggan]);
 
- 
+
         // Kirim data pelanggan ke view 'customer.blade.php'
-        $customers = Pelanggan::all();
-        
-        return view('customer', ['customers' => $customers]);
+        $pelanggans = Pelanggan::all();
+
+        return view('admin.customerAdmin', ['pelanggan' => $pelanggans]);
+
     }
 
     public function showProfile()
