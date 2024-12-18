@@ -11,13 +11,13 @@ class PelangganController extends Controller
     public function index()
     {
         // Ambil data pelanggan yang sedang login
-//        $pelanggan = Auth::user();
+        //        $pelanggan = Auth::user();
 
         $pelanggan = Auth::user();
         //        dd($pelanggan);
 
         // Debugging: Log data pelanggan yang login
-//        \Log::info('Pelanggan yang login:', [$pelanggan]);
+        //        \Log::info('Pelanggan yang login:', [$pelanggan]);
 
         // Kirim data pelanggan ke view dashboard
         // return view('dashboard', ['pelanggan' => $pelanggan]);
@@ -27,7 +27,6 @@ class PelangganController extends Controller
         $pelanggans = Pelanggan::all();
 
         return view('admin.customerAdmin', ['pelanggan' => $pelanggans]);
-
     }
 
     public function showProfile()
@@ -57,9 +56,9 @@ class PelangganController extends Controller
 
         // Menyimpan perubahan
         $user->save();
+        session()->flash('message', 'Data successfully saved!');
 
         // Redirect kembali ke halaman profil dengan pesan sukses
         return redirect()->route('profile')->with('success', 'Profil berhasil diperbarui!');
     }
 }
-

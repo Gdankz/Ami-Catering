@@ -6,12 +6,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil Pengguna</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* CSS untuk modal / pop-up */
+        #successModal {
+            position: fixed;
+            inset: 0; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            transition: opacity 1s ease-out;
+        }
 
+        /* Box pesan pop-up */
+        #successModal .message-box {
+            background-color: #143109; /* Warna box tetap #143109 */
+            color: white; /* Warna teks tetap putih */
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        /* Menyembunyikan modal setelah 2 detik */
+        #successModal.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100 min-h-screen">
 
     @include('partials.navBarHome')
+
+    <!-- Display success popup if message is flashed -->
+<!-- Pop-up message -->
+@if(session()->has('message'))
+        <div id="successModal" class="fixed inset-0 bg-[#143109] bg-gray-opacity-90 flex justify-center items-center z-50">
+            <div class="message-box">
+                <p>{{ session('message') }}</p>
+            </div>
+        </div>
+    @endif
+
     <div class="relative min-h-screen bg-gray-100 flex justify-center">
         <form action="{{ route('update-profile') }}" method="POST"
             class="absolute top-0 bg-white p-8 rounded-lg shadow-md w-full max-w-3xl mt-4">
@@ -60,7 +99,7 @@
                 </button>
 
                 <!-- Tombol Cancel -->
-                <a href="{{ route('profile') }}"
+                <a href="{{ route('profile') }} "
                     class="border border-gray-500 text-gray-500 px-4 py-2 rounded-md hover:bg-gray-50 focus:outline-none transition duration-200">
                     Cancel
                 </a>
@@ -68,8 +107,7 @@
         </form>
     </div>
 
-
-    @if(auth()->user()->is_admin === 1)
+    @if (auth()->user()->is_admin === 1)
         <div class="mt-8">
             <h3 class="text-lg font-bold text-blue-500 mb-4">Admin Panel</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -93,9 +131,14 @@
             </div>
         </div>
     @endif
-    </div>
-    </div>
-    </div>
+    <script>
+        // Setelah 2 detik, sembunyikan modal
+        setTimeout(function () {
+            document.getElementById('successModal').classList.add('hidden');
+        }, 2000);
+    </script>
+
+</body>
 </body>
 
 </html>

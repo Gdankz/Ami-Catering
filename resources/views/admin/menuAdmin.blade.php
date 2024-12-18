@@ -135,8 +135,8 @@
 
         <div id="myModal" class="modal">
             <br>
-    <br>
-    <br>
+            <br>
+            <br>
 
             <div class="modal-content">
                 <form id="foodForm"
@@ -215,8 +215,8 @@
         {{-- --------------------------- --}}
         <div id="myModalEdit" class="modal">
             <br>
-    <br>
-    <br>
+            <br>
+            <br>
 
             <div class="modal-content">
 
@@ -258,16 +258,16 @@
                         <label class="block font-semibold mb-2">Availability</label>
                         <div class="flex items-center space-x-4">
                             <label class="flex items-center space-x-2">
-                                <input type="radio" name="availability" value="1" 
+                                <input type="radio" name="availability" value="1"
                                     {{ isset($makanan) && $makanan->availability == 1 ? 'checked' : '' }}>
                                 <span>Available</span>
                             </label>
                             <label class="flex items-center space-x-2">
-                                <input type="radio" name="availability" value="0" 
+                                <input type="radio" name="availability" value="0"
                                     {{ isset($makanan) && $makanan->availability == 0 ? 'checked' : '' }}>
                                 <span>Unavailable</span>
                             </label>
-                            
+
                         </div>
                     </div>
 
@@ -280,28 +280,26 @@
                 </form>
 
             </div>
-        </div>
+        </div>  
         <!-- Daftar Makanan -->
-       <!-- Daftar Makanan -->
-@foreach ($makanans as $makanan)
-<div class="w-[30%] h-[80vh] max-w-[70%] rounded-lg flex flex-col">
-    <!-- Area Gambar (80%) -->
-    <div class="flex-grow flex items-center justify-center rounded-t-lg overflow-hidden">
-        <img src="{{ asset('storage/' . $makanan->gambarMakanan) }}" 
-             alt="{{ $makanan->namaMakanan }}"
-             class="max-h-full max-w-full object-contain"
-             style="opacity: {{ $makanan->availability == 1 ? '1' : '0.4' }};">
-    </div>
-    <!-- Area Keterangan (20%) -->
-    <div class="p-4">
-        <h3 class="text-lg font-semibold">{{ $makanan->namaMakanan }}</h3>
-        <p class="text-gray-500">{{ $makanan->jenisMakanan }}</p>
-        <div class="flex justify-between items-center mt-4">
-            <p class="text-gray-700">Rp {{ number_format($makanan->harga, 0, ',', '.') }}</p>
-            <div class="flex items-center gap-2">
-                <!-- Tombol Edit -->
-                <button type="button" class="text-blue-500"
-                    onclick="openEditModal(
+        @foreach ($makanans as $makanan)
+            <div class="w-[30%] h-[80vh] max-w-[70%] rounded-lg flex flex-col">
+                <!-- Area Gambar (80%) -->
+                <div class="flex-grow flex items-center justify-center rounded-t-lg overflow-hidden">
+                    <img src="{{ asset('storage/' . $makanan->gambarMakanan) }}" alt="{{ $makanan->namaMakanan }}"
+                        class="max-h-full max-w-full object-contain"
+                        style="opacity: {{ $makanan->availability == 1 ? '1' : '0.4' }};">
+                </div>
+                <!-- Area Keterangan (20%) -->
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold">{{ $makanan->namaMakanan }}</h3>
+                    <p class="text-gray-500">{{ $makanan->jenisMakanan }}</p>
+                    <div class="flex justify-between items-center mt-4">
+                        <p class="text-gray-700">Rp {{ number_format($makanan->harga, 0, ',', '.') }}</p>
+                        <div class="flex items-center gap-2">
+                            <!-- Tombol Edit -->
+                            <button type="button" class="text-blue-500"
+                                onclick="openEditModal(
                         '{{ $makanan->kodeMakanan }}',
                         '{{ $makanan->namaMakanan }}',
                         '{{ $makanan->jenisMakanan }}',
@@ -309,22 +307,22 @@
                         '{{ $makanan->availability }}',  
                         '{{ $makanan->gambarMakanan ? asset('storage/' . $makanan->gambarMakanan) : '' }}'
                     )">
-                    <img src="{{ asset('images/edit.png') }}" alt="Edit" class="w-6 h-6">
-                </button>
+                                <img src="{{ asset('images/edit.png') }}" alt="Edit" class="w-6 h-6">
+                            </button>
 
-                <!-- Tombol Hapus -->
-                <form action="{{ route('makanan.destroy', $makanan->kodeMakanan) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="text-red-500">
-                        <img src="{{ asset('images/delete.png') }}" alt="Hapus" class="w-6 h-6">
-                    </button>
-                </form>
+                            <!-- Tombol Hapus -->
+                            <form action="{{ route('makanan.destroy', $makanan->kodeMakanan) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-500">
+                                    <img src="{{ asset('images/delete.png') }}" alt="Hapus" class="w-6 h-6">
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
-@endforeach
+        @endforeach
 
 
 
@@ -403,38 +401,36 @@
         @endif
 
         // Fungsi untuk membuka modal dan menampilkan data
-       // Fungsi untuk membuka modal dan menampilkan data
-// Fungsi untuk membuka modal dan menampilkan data
-function openEditModal(kodeMakanan, namaMakanan, category, harga, availability, gambar) {
-    var modal = document.getElementById("myModalEdit");
-    modal.style.display = "block";
+        // Fungsi untuk membuka modal dan menampilkan data
+        // Fungsi untuk membuka modal dan menampilkan data
+        function openEditModal(kodeMakanan, namaMakanan, category, harga, availability, gambar) {
+            var modal = document.getElementById("myModalEdit");
+            modal.style.display = "block";
 
-    // Update action form untuk update data makanan
-    var foodForm = document.getElementById("foodFormEdit");
-    foodForm.action = `/makanan/${kodeMakanan}`;
-    foodForm.querySelector('input[name="_method"]').value = "PUT";
+            // Update action form untuk update data makanan
+            var foodForm = document.getElementById("foodFormEdit");
+            foodForm.action = `/makanan/${kodeMakanan}`;
+            foodForm.querySelector('input[name="_method"]').value = "PUT";
 
-    // Isi form dengan data dari parameter
-    document.getElementById("categoryEdit").value = category || ''; 
-    document.getElementById("nameEdit").value = namaMakanan || ''; 
-    document.getElementById("priceEdit").value = harga || ''; 
+            // Isi form dengan data dari parameter
+            document.getElementById("categoryEdit").value = category || '';
+            document.getElementById("nameEdit").value = namaMakanan || '';
+            document.getElementById("priceEdit").value = harga || '';
 
-    // Set nilai pada radio button availability
-    if (availability !== undefined && (availability == 1 || availability == 0)) {
-        document.querySelector(`input[name="availability"][value="${availability}"]`).checked = true;
-    } else {
-        console.warn("Nilai availability tidak valid atau tidak ditemukan:", availability);
-    }
+            // Set nilai pada radio button availability
+            if (availability !== undefined && (availability == 1 || availability == 0)) {
+                document.querySelector(`input[name="availability"][value="${availability}"]`).checked = true;
+            } else {
+                console.warn("Nilai availability tidak valid atau tidak ditemukan:", availability);
+            }
 
-    // Update preview gambar
-    var imagePreview = document.getElementById("imagePreviewEdit");
-    imagePreview.innerHTML = gambar
-        ? `<img src="${gambar}" class="w-full h-full object-cover rounded-full" />`
-        : '<span class="text-gray-500 text-sm">Ellipse</span>';
-}
-
-
-
+            // Update preview gambar
+            var imagePreview = document.getElementById("imagePreviewEdit");
+            imagePreview.innerHTML = gambar ?
+                `<img src="${gambar}" class="w-full h-full object-cover rounded-full" />` :
+                '<span class="text-gray-500 text-sm">Ellipse</span>';
+        }
+        
     </script>
 </body>
 
